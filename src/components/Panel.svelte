@@ -1,22 +1,19 @@
 <script lang="ts">
-  export let title: string;
+  export let title: string = '';
 </script>
 
 <section class="panel">
-  <h2>{title}</h2>
+  <slot />
+  <!-- <h2>{title}</h2>
   <div class="panel-content">
     <slot />
-  </div>
+  </div> -->
 </section>
 
 <style>
   h2 {
     margin: 0;
     padding: var(--padding-2);
-    background-color: var(--bg-2);
-    border-radius: 8px 8px 0 0;
-    font-size: var(--text-small);
-    text-transform: uppercase;
     text-align: center;
   }
   .panel {

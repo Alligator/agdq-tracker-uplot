@@ -62,7 +62,7 @@
           values: "{WWW} {HH}:{mm} {aa}",
         },
         {
-          size: 100,
+          size: 85,
           space: 50,
           scale: "donations",
           stroke: "#705060",
@@ -85,7 +85,7 @@
       tooltip.className = "tooltip";
       tooltip.style.pointerEvents = "none";
       tooltip.style.position = "absolute";
-      tooltip.style.background = "rgba(231, 228, 234, 0.95)";
+      tooltip.style.background = "rgba(234, 234, 234, 0.96)";
       tooltip.style.boxShadow = "0px 2px 6px rgba(0, 0, 0, 0.1)";
       tooltip.style.borderRadius = "8px";
       tooltip.style.padding = "4px 8px 8px 8px";
@@ -136,20 +136,20 @@
         }
         gameHtml = `
         <div style="min-width: 100px; padding-right: 6px;">
-          <span style="color: var(--fg-light-dim); font-size: 10pt;">game</span>
+          <span style="color: var(--fg-light-dim); font-size: 8pt;">GAME</span>
           <div style="margin-bottom: -4px; font-weight: bold;">${foundGame[GAME_NAME]}</div>
         </div>`;
       }
 
       u.cursorTooltip.innerHTML = `
-      <div style="padding: 4px;font-weight: bold; font-size: 10pt; text-align: center;">${ts.toUpperCase()}</div>
+      <div style="padding: 4px;font-weight: bold; font-size: 8pt; text-align: center;">${ts.toUpperCase()}</div>
       <div style="display: flex;">
         <div style="min-width: 100px; padding-right: 6px; margin-bottom: 6px;">
-          <span style="color: var(--fg-light-dim); font-size: 10pt;">viewers</span>
+          <span style="color: var(--fg-light-dim); font-size: 8pt;">VIEWERS</span>
           <div style="margin-bottom: -4px; font-weight: bold; color: ${viewerColor}">${viewers}</div>
         </div>
         <div style="min-width: 100px; margin-bottom: 6px;">
-          <span style="color: var(--fg-light-dim); font-size: 10pt;">donation total</span>
+          <span style="color: var(--fg-light-dim); font-size: 8pt;">DONATION TOTAL</span>
           <div style="margin-bottom: -4px; font-weight: bold; color: ${donationColor}">${donations}</div>
         </div>
       </div>

@@ -34,8 +34,12 @@
   {#await promise}
     loadin'
   {:then data}
-    <Panel title="Viewers and donations">
-      <Chart series={mainChartSeries} games={data.games} />
+    <Panel>
+      <div class="panel">
+        <h2>Viewers and donations</h2>
+        <p>Click and drag to zoom, double click to reset.</p>
+        <Chart series={mainChartSeries} games={data.games} />
+      </div>
     </Panel>
     <GameList stats={data} />
   {:catch error}
@@ -48,5 +52,8 @@
   main {
     max-width: 960px;
     margin: 0 auto;
+  }
+  .panel {
+    padding: var(--padding-2);
   }
 </style>

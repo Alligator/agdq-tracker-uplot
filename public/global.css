@@ -12,17 +12,27 @@ body {
   color: var(--fg-dark);
 }
 
+h2 {
+  font-size: var(--text-small);
+  text-transform: uppercase;
+  margin: 0;
+  padding: var(--padding-1);
+  text-align: center;
+}
+
 :root {
   --text-small: 8pt;
   --text-medium: 10pt;
   --text-large: 14pt;
 
   --bg-dark: rgba(65,28,56,1);
-  --bg-light: #e6e3e9;
+  --bg-light: #e6e6e6;
+  --bg-light-dim: #dcdae0;
 
   --fg-dark: #e3e0e6;
   --fg-light: #301020;
   --fg-light-dim: #705060;
+  --fg-light-dimmer: #c0a0b0;
 
   --padding-1: 6px;
   --padding-2: 12px;

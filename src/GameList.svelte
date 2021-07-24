@@ -1,7 +1,7 @@
 <script lang="ts">
   import Chart from "./Chart.svelte";
   import Panel from "./components/Panel.svelte";
-  import { ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS, GAME_TS } from "./Stats";
+  import { ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS, GAME_NAME, GAME_TS } from "./Stats";
   import type { Stats, StatGame } from './Stats';
 
   export let stats: Stats;
@@ -37,7 +37,7 @@
   }
 </script>
 
-<Panel title="Per game">
+<Panel>
   <section>
     <div class="games">
       {#each stats.games as game, i}
@@ -52,9 +52,10 @@
         </div>
       {/each}
     </div>
-    <div style="flex-grow: 1">
+    <div class="game-graph">
       {#if typeof gameIndex !== "undefined"}
-        <Chart series={chartSeries} gameName={stats.games[gameIndex][1]} />
+        <h2>{stats.games[gameIndex][GAME_NAME]}</h2>
+        <Chart series={chartSeries} gameName={stats.games[gameIndex][GAME_NAME]} />
       {:else}
         No game selected
       {/if}
@@ -67,12 +68,17 @@
     display: flex;
   }
   .games {
-    max-height: 500px;
+    max-height: 530px;
     width: 200px;
     overflow-y: auto;
+    background-color: var(--bg-light-dim);
+    border-radius: 8px 0 0 8px;
+    padding: var(--padding-2);
   }
   .game {
-    padding-bottom: var(--padding-2);
+    padding-bottom: var(--padding-1);
+    margin-bottom: var(--padding-1);
+    border-bottom: 1px solid var(--fg-light-dimmer);
     cursor: pointer;
   }
   .game.active > .name,
@@ -81,5 +87,9 @@
   }
   .game > .runner {
     font-size: var(--text-small);
+  }
+  .game-graph {
+    flex-grow: 1;
+    padding: var(--padding-2);
   }
 </style>
