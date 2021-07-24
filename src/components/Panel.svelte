@@ -5,7 +5,7 @@
 <section class="panel">
   <h2>{title}</h2>
   <div class="panel-content">
-    <slot></slot>
+    <slot />
   </div>
 </section>
 
