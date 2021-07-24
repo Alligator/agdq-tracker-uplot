@@ -1,7 +1,8 @@
 <script lang="ts">
   import Chart from "./Chart.svelte";
   import Panel from "./components/Panel.svelte";
-  import type { StatGame, Stats } from "./Stats";
+  import { ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS, GAME_TS } from "./Stats";
+  import type { Stats, StatGame } from './Stats';
 
   export let stats: Stats;
   // let games = stats.games;
@@ -13,22 +14,22 @@
   function onGameClick(game: StatGame, idx: number) {
     gameIndex = idx;
     const nextGame = stats.games[idx + 1];
-    const nextGameTime = nextGame ? nextGame[0] : Infinity;
+    const nextGameTime = nextGame ? nextGame[GAME_TS] : Infinity;
     chartSeries = [[], [], []];
 
     let inGame = false;
     for (let i = 0; i < stats.viewers.length; i++) {
-      if (stats.viewers[i][0] >= game[0] && !inGame) {
+      if (stats.viewers[i][ENTRY_TS] >= game[GAME_TS] && !inGame) {
         inGame = true;
       }
 
       if (inGame) {
-        chartSeries[0].push(stats.viewers[i][0]);
-        chartSeries[1].push(stats.viewers[i][1] || null);
-        chartSeries[2].push(stats.viewers[i][2]);
+        chartSeries[0].push(stats.viewers[i][ENTRY_TS]);
+        chartSeries[1].push(stats.viewers[i][ENTRY_VIEWERS] || null);
+        chartSeries[2].push(stats.viewers[i][ENTRY_DONATIONS]);
       }
 
-      if (stats.viewers[i][0] > nextGameTime && inGame) {
+      if (stats.viewers[i][ENTRY_TS] > nextGameTime && inGame) {
         break;
       }
     }

@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import uPlot from "uplot";
   import type { Options } from "uplot";
+  import { GAME_NAME, GAME_TS } from "./Stats";
   import type { StatGame } from "./Stats";
 
   export let series: [
@@ -129,15 +130,14 @@
       } else if (games != null) {
         let foundGame = games[0];
         for (let i = 0; i < games.length; i++) {
-          const game = games[i];
-          if (game[0] < u.data[0][idx]) {
+          if (games[i][GAME_TS] < u.data[0][idx]) {
             foundGame = games[i];
           }
         }
         gameHtml = `
         <div style="min-width: 100px; padding-right: 6px;">
           <span style="color: var(--fg-light-dim); font-size: 10pt;">game</span>
-          <div style="margin-bottom: -4px; font-weight: bold;">${foundGame[1]}</div>
+          <div style="margin-bottom: -4px; font-weight: bold;">${foundGame[GAME_NAME]}</div>
         </div>`;
       }
 

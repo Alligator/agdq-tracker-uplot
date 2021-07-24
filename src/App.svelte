@@ -2,7 +2,8 @@
   import Chart from "./Chart.svelte";
   import Panel from "./components/Panel.svelte";
   import GameList from "./GameList.svelte";
-  import type { StatGame, Stats } from "./Stats";
+  import { ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS } from "./Stats";
+  import type { Stats } from './Stats';
   import "uplot/dist/uPlot.min.css";
 
   let mainChartSeries: [number[], number[], number[]] = [[], [], []];
@@ -16,9 +17,9 @@
 
     mainChartSeries = [[], [], []];
     json.viewers.map((entry) => {
-      mainChartSeries[0].push(entry[0]);
-      mainChartSeries[1].push(entry[1] || null);
-      mainChartSeries[2].push(entry[2]);
+      mainChartSeries[0].push(entry[ENTRY_TS]);
+      mainChartSeries[1].push(entry[ENTRY_VIEWERS] || null);
+      mainChartSeries[2].push(entry[ENTRY_DONATIONS]);
     });
 
     return json;
