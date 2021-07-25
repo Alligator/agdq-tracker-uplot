@@ -98,21 +98,24 @@
           tooltip.style.display = "none";
         }
       });
-
-      over.addEventListener("mouseenter", () => {
-        tooltip.style.display = null;
-      });
     }
 
     function setCursor(u) {
       const { idx, left, top } = u.cursor;
+
       if (typeof idx !== "number") {
         u.cursorTooltip.style.display = "none";
         return;
       }
 
+      u.cursorTooltip.style.display = null;
       u.cursorTooltip.style.left = `${left + 10}px`;
       u.cursorTooltip.style.top = `${top + 10}px`;
+
+      const overLeft = u.over.getBoundingClientRect().left;
+      if ((left + 10 + 220 + overLeft) > window.innerWidth) {
+        u.cursorTooltip.style.left = `${left - 10 - 220}px`;
+      }
 
       const ts = u.series[0].value(u.series[0], u.data[0][idx]);
       const viewers = u.series[1].value(u.series[1], u.data[1][idx]);
