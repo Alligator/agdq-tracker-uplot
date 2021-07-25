@@ -17,7 +17,7 @@
     text-align: center;
   }
   .panel {
-    border-radius: 8px;
+    border-radius: 4px;
     background-color: var(--bg-light);
     color: var(--fg-light);
     margin-bottom: var(--padding-3);

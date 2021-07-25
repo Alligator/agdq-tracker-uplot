@@ -72,7 +72,7 @@
     width: 200px;
     overflow-y: auto;
     background-color: var(--bg-light-dim);
-    border-radius: 8px 0 0 8px;
+    border-radius: 4px 0 0 4px;
     padding: var(--padding-2);
   }
   .game {
