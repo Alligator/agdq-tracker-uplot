@@ -68,6 +68,14 @@
     selectedGameIndex = gameIndex;
   }
 
+  function onChartDoubleClick(clickedGame: StatGame) {
+    if (selectedGameIndex === null) {
+      selectedGameIndex = stats.games.findIndex((game) => game[0] === clickedGame[0]);
+    } else {
+      selectedGameIndex = null;
+    }
+  }
+
   function onThemeSelect(evt) {
     useDarkTheme = evt.target.checked;
   }
@@ -109,7 +117,7 @@
         <div style="padding: var(--padding-1)">
           <h2>{selectedGameIndex === null ? 'All Games' : stats.games[selectedGameIndex][1]}</h2>
           <span style="font-size: var(--text-small)">
-            Click and drag to zoom in, double click to reset.
+            Click and drag to zoom in, double click to reset. Double click when zoomed out to select/deselect a specific game.
           </span>
         </div>
         <Chart
@@ -118,6 +126,7 @@
           series={chartSeries}
           games={data.games}
           gameName={selectedGameIndex ? stats.games[selectedGameIndex][1] : null}
+          onDoubleClick={onChartDoubleClick}
         />
       </div>
     </Layout>

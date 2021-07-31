@@ -1,5 +1,7 @@
+- fix switch in non-firefox browsers!!
 - click on graph jump to game
 - flesh out about page
 - loading page
 - tooltip overflowing bottom of page
 - page title
+- re-render chart after window resize

@@ -14,6 +14,7 @@
   export let games: StatGame[] | null = null;
   export let gameName: string = null;
   export let theme: Theme;
+  export let onDoubleClick: (game: StatGame) => void;
 
   $: renderChart(series, games, theme);
 
@@ -88,6 +89,8 @@
   onMount(() => renderChart(series, games, theme));
 
   function tooltipsPlugin(opts) {
+    let zoomed = false;
+    let gameAtCursor:StatGame = null;
     function init(u, opts, data) {
       let over = u.over;
 
@@ -107,6 +110,15 @@
         if (!u.cursor._lock) {
           tooltip.style.display = "none";
         }
+      });
+
+      over.addEventListener('dblclick', () => {
+        // ignore double clicks for zooming out
+        if (zoomed) {
+          zoomed = false;
+          return;
+        }
+        onDoubleClick(gameAtCursor);
       });
     }
 
@@ -147,6 +159,7 @@
             foundGame = games[i];
           }
         }
+        gameAtCursor = foundGame;
         gameHtml = `
         <div style="min-width: 100px; padding-right: 6px;">
           <span style="color: var(--fg-light-dim); font-size: 10pt;">Game</span>
@@ -173,6 +186,11 @@
       hooks: {
         init,
         setCursor,
+        setSelect: (u) => {
+          if (u.select.left > 0) {
+            zoomed = true;
+          }
+        },
       },
     };
   }
