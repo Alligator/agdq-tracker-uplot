@@ -19,6 +19,20 @@
   $: renderChart(series, games, theme);
 
   let chartEl: HTMLDivElement;
+  let resizeObserver: ResizeObserver;
+  let uplot: uPlot;
+  $: {
+    if (chartEl && !resizeObserver) {
+      resizeObserver = new ResizeObserver(() => {
+        uplot.setSize({
+          width: chartEl.getBoundingClientRect().width,
+          height: chartEl.getBoundingClientRect().height,
+        });
+      });
+
+      resizeObserver.observe(chartEl);
+    }
+  }
 
   function fmtMoney(amt: number): string {
     let scaledAmt = amt;
@@ -101,7 +115,7 @@
       ],
     };
 
-    const plot = new uPlot(opts, series, chartEl);
+    uplot = new uPlot(opts, series, chartEl);
   }
 
   onMount(() => renderChart(series, games, theme));
