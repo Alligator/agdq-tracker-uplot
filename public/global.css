@@ -15,9 +15,9 @@ h1, h2, h3 {
 }
 
 :root {
-  --text-small: 10pt;
-  --text-medium: 12pt;
-  --text-large: 16pt;
+  --text-small: 8pt;
+  --text-medium: 10pt;
+  --text-large: 14pt;
 
   --padding-1: 6px;
   --padding-2: 9px;

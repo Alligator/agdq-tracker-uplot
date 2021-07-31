@@ -1,5 +1,4 @@
 const baseVars = {
-  'text-medium': '12pt',
   'color-bg': '#f0f0f0',
   'color-bg-dim': '#e8e8e8',
   'color-bg-dimmer': '#a0a0a0',

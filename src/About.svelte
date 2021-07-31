@@ -53,7 +53,7 @@
     display: block;
     text-align: left;
     font-family: inherit;
-    font-size: var(--text-large);
+    font-size: 16pt;
     position: absolute;
     right: 0;
     top: 0;
@@ -67,7 +67,7 @@
 
   .about {
     padding: var(--padding-3);
-    width: 400px;
+    width: 350px;
     background-color: var(--color-bg);
     position: absolute;
     z-index: 100;
