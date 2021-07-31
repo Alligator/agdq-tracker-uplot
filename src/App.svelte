@@ -155,14 +155,15 @@
   }
 
   .aside-header {
-     padding: var(--padding-1);
-     font-size: var(--text-small);
-     border-bottom: 1px solid var(--color-fg-dim);
-     background-color: var(--color-bg);
-     position: sticky;
-     top: 0;
-     display: flex;
-     justify-content: space-between;
+    padding: var(--padding-1);
+    font-size: var(--text-small);
+    /* border-bottom: 1px solid var(--color-fg-dim); */
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-bg);
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
   }
   .aside-header h1 {
     margin: 0;
