@@ -76,7 +76,11 @@
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   }
 
-  .about h2, h3 {
+  h2 {
+    font-size: var(--text-large);
+    text-align: center;
+  }
+  h3 {
     margin: 0;
     padding-top: var(--padding-2);
   }
