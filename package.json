@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "sirv-cli": "^1.0.0",
+    "svelte-css-vars": "^0.0.3",
     "uplot": "^1.6.14"
   }
 }

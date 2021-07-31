@@ -4,6 +4,7 @@
   import type { Options } from "uplot";
   import { GAME_NAME, GAME_TS } from "./Stats";
   import type { StatGame } from "./Stats";
+  import type { Theme } from "./theme";
 
   export let series: [
     timestamps: number[],
@@ -12,22 +13,29 @@
   ];
   export let games: StatGame[] | null = null;
   export let gameName: string = null;
-  $: renderChart(series, games);
+  export let theme: Theme;
+
+  $: renderChart(series, games, theme);
 
   let chartEl: HTMLDivElement;
 
-  function renderChart(series, games) {
+  function renderChart(series, games, theme) {
     if (!chartEl) {
       return;
     }
+
+    const textColor = theme['color-fg'];
+    const donationsColor = 'cornflowerblue';
+    const viewersColor = 'peru';
+
     chartEl.innerHTML = "";
     const valueFormatter = (self, rawValue: number) =>
       rawValue ? "$" + uPlot.fmtNum(Math.round(rawValue)) : rawValue;
     const opts: Options = {
       id: "chart1",
       width: chartEl.getBoundingClientRect().width,
-      height: 500,
-      padding: [10, 10, 0, 0],
+      height: chartEl.getBoundingClientRect().height,
+      padding: [30, 10, 0, 0],
       legend: {
         show: false,
       },
@@ -38,19 +46,17 @@
         },
         {
           label: "Viewers",
-          stroke: "#cC2E65",
-          width: 2,
-          paths: uPlot.paths.spline(),
+          stroke: viewersColor,
+          width: 1.5,
           scale: "viewers",
           spanGaps: false,
           points: { show: false },
         },
         {
           label: "Donations",
-          stroke: "#7939ce",
-          width: 2,
+          stroke: donationsColor,
+          width: 1.5,
           scale: "donations",
-          paths: uPlot.paths.spline(),
           value: valueFormatter,
           points: { show: false },
         },
@@ -58,14 +64,18 @@
       axes: [
         {
           space: 100,
-          stroke: "#705060",
+          stroke: textColor,
+          font: '12px Inter',
           values: "{WWW} {HH}:{mm} {aa}",
+          grid: { show: false },
         },
         {
           size: 85,
           space: 50,
           scale: "donations",
-          stroke: "#705060",
+          font: '12px Inter',
+          stroke: textColor,
+          grid: { show: false },
           values: (self, ticks) =>
             ticks.map((tick) => valueFormatter(self, tick)),
         },
@@ -75,7 +85,7 @@
     const plot = new uPlot(opts, series, chartEl);
   }
 
-  onMount(() => renderChart(series, games));
+  onMount(() => renderChart(series, games, theme));
 
   function tooltipsPlugin(opts) {
     function init(u, opts, data) {
@@ -85,9 +95,9 @@
       tooltip.className = "tooltip";
       tooltip.style.pointerEvents = "none";
       tooltip.style.position = "absolute";
-      tooltip.style.background = "rgba(234, 234, 234, 0.96)";
+      tooltip.style.background = theme['color-bg-dim'];
       tooltip.style.boxShadow = "0px 2px 6px rgba(0, 0, 0, 0.1)";
-      tooltip.style.borderRadius = "8px";
+      tooltip.style.borderRadius = "4px";
       tooltip.style.padding = "4px 8px 8px 8px";
       tooltip.style.width = "220px";
       tooltip.style.display = "none";
@@ -113,7 +123,7 @@
       u.cursorTooltip.style.top = `${top + 10}px`;
 
       const overLeft = u.over.getBoundingClientRect().left;
-      if ((left + 10 + 220 + overLeft) > window.innerWidth) {
+      if ((left + 10 + 240 + overLeft) > window.innerWidth) {
         u.cursorTooltip.style.left = `${left - 10 - 220}px`;
       }
 
@@ -127,7 +137,7 @@
       if (gameName) {
         gameHtml = `
         <div style="min-width: 100px; padding-right: 6px;">
-          <span style="color: var(--fg-light-dim); font-size: 10pt;">game</span>
+          <span style="color: var(--fg-light-dim); font-size: 10pt;">Game</span>
           <div style="margin-bottom: -4px; font-weight: bold;">${gameName}</div>
         </div>`;
       } else if (games != null) {
@@ -139,7 +149,7 @@
         }
         gameHtml = `
         <div style="min-width: 100px; padding-right: 6px;">
-          <span style="color: var(--fg-light-dim); font-size: 8pt;">GAME</span>
+          <span style="color: var(--fg-light-dim); font-size: 10pt;">Game</span>
           <div style="margin-bottom: -4px; font-weight: bold;">${foundGame[GAME_NAME]}</div>
         </div>`;
       }
@@ -148,11 +158,11 @@
       <div style="padding: 4px;font-weight: bold; font-size: 8pt; text-align: center;">${ts.toUpperCase()}</div>
       <div style="display: flex;">
         <div style="min-width: 100px; padding-right: 6px; margin-bottom: 6px;">
-          <span style="color: var(--fg-light-dim); font-size: 8pt;">VIEWERS</span>
+          <span style="color: var(--fg-light-dim); font-size: 10pt;">Viewers</span>
           <div style="margin-bottom: -4px; font-weight: bold; color: ${viewerColor}">${viewers}</div>
         </div>
         <div style="min-width: 100px; margin-bottom: 6px;">
-          <span style="color: var(--fg-light-dim); font-size: 8pt;">DONATION TOTAL</span>
+          <span style="color: var(--fg-light-dim); font-size: 10pt;">Donation Total</span>
           <div style="margin-bottom: -4px; font-weight: bold; color: ${donationColor}">${donations}</div>
         </div>
       </div>
@@ -168,4 +178,13 @@
   }
 </script>
 
-<div bind:this={chartEl} />
+<div class="chart" bind:this={chartEl} />
+
+<style>
+  :global(.uplot) {
+    font-family: 'Inter', sans-serif !important;
+  }
+  .chart {
+    height: 100%;
+  }
+</style>
