@@ -13,6 +13,12 @@
   let useDarkTheme = window.localStorage.getItem('theme') === 'dark';
   let theme;
   $: {
+    if (!window.localStorage.getItem('theme')) {
+      // no saved theme, try to detect
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        useDarkTheme = true;
+      }
+    }
     theme = useDarkTheme ? { ...darkTheme } : { ...lightTheme };
     window.localStorage.setItem('theme', useDarkTheme ? 'dark' : 'light');
   }
