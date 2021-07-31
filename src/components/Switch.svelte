@@ -16,6 +16,8 @@
 
   .switch {
     appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     width: 38px;
     border-radius: 11px;
     height: 21px;
