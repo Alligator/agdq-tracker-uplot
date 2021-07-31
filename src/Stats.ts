@@ -1,4 +1,4 @@
-export type StatGame = [startTimestamp: number, name: string, runner: string];
+export type StatGame = [startTimestamp: number, name: string, runner: string, category: string];
 export const GAME_TS = 0;
 export const GAME_NAME = 1;
 export const GAME_RUNNERS = 2;

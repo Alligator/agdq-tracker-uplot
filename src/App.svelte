@@ -99,19 +99,27 @@
         {#each data.games as game, i}
         <ListItem
           title={game[1]}
-          subtitle={game[2]}
+          subtitle={game[3]}
           active={selectedGameIndex === i}
           on:click={() => onSelect(i)}
         />
         {/each}
       </div>
-      <Chart
-        slot="content"
-        theme={theme}
-        series={chartSeries}
-        games={data.games}
-        gameName={selectedGameIndex ? stats.games[selectedGameIndex][1] : null}
-      />
+      <div slot="content" style="height: 100%; display: flex; flex-direction: column;">
+        <div style="padding: var(--padding-1)">
+          <h2>{selectedGameIndex === null ? 'All Games' : stats.games[selectedGameIndex][1]}</h2>
+          <span style="font-size: var(--text-small)">
+            Click and drag to zoom in, double click to reset.
+          </span>
+        </div>
+        <Chart
+          slot="content"
+          theme={theme}
+          series={chartSeries}
+          games={data.games}
+          gameName={selectedGameIndex ? stats.games[selectedGameIndex][1] : null}
+        />
+      </div>
     </Layout>
   {:catch error}
     error: {error.message}
@@ -148,7 +156,6 @@
      justify-content: space-between;
   }
   .aside-header h1 {
-    font-size: var(--text-medium);
     margin: 0;
   }
 </style>
