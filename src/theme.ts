@@ -4,12 +4,15 @@ const baseVars = {
   'color-bg-dim': '#e8e8e8',
   'color-bg-dimmer': '#a0a0a0',
   'color-bg-faded': 'rgba(160, 160, 160, 0.75)',
+
   'color-fg': '#303030',
   'color-fg-bright': '#101010',
   'color-fg-dim': '#b0b0b0',
+
   'color-switch-bg': '#a0a0a0',
   'color-switch-fg': '#f0f0f0',
   'color-link': 'cornflowerblue',
+  'color-chart-selection': 'rgba(160, 160, 160, 0.25)',
 };
 
 const darkVars = {
@@ -17,9 +20,11 @@ const darkVars = {
   'color-bg-dim': '#282828',
   'color-bg-dimmer': '#101010',
   'color-bg-faded': 'rgba(16, 16, 16, 0.9)',
+
   'color-fg': '#e0e0e0',
   'color-fg-bright': '#f5f5f5',
   'color-fg-dim': '#606060',
+
   'color-switch-bg': '#505050',
   'color-switch-fg': '#e0e0e0',
   'color-link': 'cornflowerblue',

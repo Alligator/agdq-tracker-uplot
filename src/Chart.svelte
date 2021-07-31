@@ -184,6 +184,9 @@
   :global(.uplot) {
     font-family: 'Inter', sans-serif !important;
   }
+  :global(.u-select) {
+    background: var(--color-chart-selection) !important;
+  }
   .chart {
     height: 100%;
   }

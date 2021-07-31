@@ -1,5 +1,5 @@
-- uplot selection in dark mode
 - click on graph jump to game
 - flesh out about page
 - loading page
 - tooltip overflowing bottom of page
+- page title
