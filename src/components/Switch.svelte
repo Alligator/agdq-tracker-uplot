@@ -23,6 +23,7 @@
     height: 21px;
     background: var(--color-switch-bg);
     position: relative;
+    margin-left: var(--padding-1);
   }
 
   .switch::after {
