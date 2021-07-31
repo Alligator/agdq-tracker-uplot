@@ -20,7 +20,23 @@
 
   let chartEl: HTMLDivElement;
 
-  function renderChart(series, games, theme) {
+  function fmtMoney(amt: number): string {
+    let scaledAmt = amt;
+    let suffix = '';
+
+    if (amt >= 1_000_000) {
+      suffix = 'M';
+      scaledAmt /= 1_000_000;
+    } else if (amt >= 1000) {
+      suffix = 'K';
+      scaledAmt /= 1000;
+    }
+
+    scaledAmt = Math.floor(scaledAmt * 100) / 100;
+    return `${scaledAmt}${suffix}`;
+  }
+
+  function renderChart(series, games, theme: Theme) {
     if (!chartEl) {
       return;
     }
@@ -69,6 +85,7 @@
           font: '12px Inter',
           values: "{WWW} {HH}:{mm} {aa}",
           grid: { show: false },
+          ticks: { stroke: theme['color-fg-dim'] },
         },
         {
           size: 85,
@@ -77,8 +94,9 @@
           font: '12px Inter',
           stroke: textColor,
           grid: { show: false },
+          ticks: { stroke: theme['color-fg-dim'] },
           values: (self, ticks) =>
-            ticks.map((tick) => valueFormatter(self, tick)),
+            ticks.map((tick) => '$' + fmtMoney(tick)),
         },
       ],
     };

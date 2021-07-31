@@ -17,7 +17,7 @@ const baseVars = {
 
 const darkVars = {
   'color-bg': '#303030',
-  'color-bg-dim': '#282828',
+  'color-bg-dim': '#202020',
   'color-bg-dimmer': '#101010',
   'color-bg-faded': 'rgba(16, 16, 16, 0.9)',
 
