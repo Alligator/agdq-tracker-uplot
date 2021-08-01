@@ -13,20 +13,24 @@
   <div class="about">
     <button type="button" on:click={onClose}>✖</button>
     <h2>About</h2>
-    <p>GDQ stats, by <a href="https://alligatr.co.uk">alligator</a>.</p>
-    <p><a href="https://gdq.alligatr.co.uk/">Previous marathons and other stuff.</a></p>
-    <h3>Source code</h3>
+    <p>GDQ stats, by <a href="https://alligatr.co.uk">alligator</a>. Here are some useful links:</p>
     <ul>
       <li>
-        <a href="https://github.com/Alligator/agdq-tracker-uplot">This page.</a>
+        <a href="https://irc.alligatr.co.uk/agdq-comparison-uplot/">Marathon comparison chart</a>
       </li>
       <li>
-        <a href="https://github.com/Alligator/agdq-tracker">Data fetching script.</a>
+        <a href="https://gdq.alligatr.co.uk/">Trackers for previous marathons</a>
       </li>
       <li>
-        <a href="https://github.com/Alligator/agdq-data">Data from this and previous marathons.</a>
+        <a href="https://github.com/Alligator/agdq-tracker-uplot">Source code for this page</a>
+      </li>
+      <li>
+        <a href="https://github.com/Alligator/agdq-tracker">Source code for the data fetching script</a>
       </li>
     </ul>
+    <p>Special thanks to UA for giving the tracker JSON output and to the GDQ staff for keeping the schedule up to date during marathons.</p>
+    <p>UI powered by <a href="https://svelte.dev/">Svelte</a> and <a href="https://leeoniya.github.io/uPlot/">uPlot</a>.</p>
+
   </div>
 </div>
 
@@ -42,7 +46,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
   }
 
   button {
@@ -74,6 +77,7 @@
     border-radius: 4px;
     position: relative;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
   }
 
   h2 {

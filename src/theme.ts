@@ -11,7 +11,7 @@ const baseVars = {
 
   'color-switch-bg': '#a0a0a0',
   'color-switch-fg': '#f0f0f0',
-  'color-link': 'cornflowerblue',
+  'color-link': '#5465FD',
   'color-chart-selection': 'rgba(160, 160, 160, 0.25)',
 };
 
@@ -28,7 +28,7 @@ const darkVars = {
 
   'color-switch-bg': '#505050',
   'color-switch-fg': '#e0e0e0',
-  'color-link': 'cornflowerblue',
+  'color-link': '#74a5FD',
 };
 
 export type Theme = typeof baseVars;
