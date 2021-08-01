@@ -1,4 +1,4 @@
 - flesh out about page
-- loading page
 - tooltip overflowing bottom of page
+- game lines
 - re-render chart after window resize

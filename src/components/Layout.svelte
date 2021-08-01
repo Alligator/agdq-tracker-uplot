@@ -15,7 +15,8 @@
 
   .aside {
     overflow-y: auto;
-    max-width: 40ex;
+    width: 40ex;
+    min-height: 100vh;
     background-color: var(--color-bg-dim);
     /* border: 1px solid white; */
   }

@@ -1,12 +1,14 @@
 <script lang="ts">
-export let title: string;
-export let subtitle: string = '';
 export let active = false;
 </script>
 
 <button class="list-item" class:active type="button" on:click>
-  <div class="title">{title}</div>
-  <div class="subtitle">{subtitle}</div>
+  <div class="title">
+    <slot name="title"></slot>
+  </div>
+  <div class="subtitle">
+    <slot name="subtitle"></slot>
+  </div>
 </button>
 
 <style>

@@ -94,7 +94,28 @@
     <About onClose={() => { showAbout = false }} />
   {/if}
   {#await promise}
-    loadin'
+      <Layout>
+        <div slot="aside">
+          <div class="aside-header">
+            <div>
+              <h1>SGDQ 2021 Stats</h1>
+              <span class="link" on:click={() => { showAbout = true }}>about</span>
+            </div>
+            <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
+          </div>
+          {#each new Array(10) as i}
+          <ListItem>
+            <div slot="title" class="skeleton" style="width: 20ex"></div>
+            <div slot="subtitle" class="skeleton" style="width: 15ex"></div>
+          </ListItem>
+          {/each}
+        </div>
+        <div slot="content">
+          <div style="padding: var(--padding-1)">
+            <div class="skeleton" style="width: 20ex"></div>
+          </div>
+        </div>
+      </Layout>
   {:then data}
     <Layout>
       <div slot="aside">
@@ -106,17 +127,19 @@
           <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
         </div>
         <ListItem
-          title="All games"
           active={selectedGameIndex === null}
           on:click={() => onSelect(null)}
-        />
+        >
+          <svelte:fragment slot="title">All games</svelte:fragment>
+        </ListItem>
         {#each data.games as game, i}
         <ListItem
-          title={game[1]}
-          subtitle={game[3]}
           active={selectedGameIndex === i}
           on:click={() => onSelect(i)}
-        />
+        >
+          <svelte:fragment slot="title">{game[1]}</svelte:fragment>
+          <svelte:fragment slot="subtitle">{game[3]}</svelte:fragment>
+        </ListItem>
         {/each}
       </div>
       <div slot="content" style="height: 100%; display: flex; flex-direction: column;">
@@ -139,11 +162,11 @@
   {:catch error}
     error: {error.message}
   {/await}
-  <!-- <footer>stuff</footer> -->
 </main>
 
 <style>
   main {
+    height: 100vh;
     max-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -158,6 +181,18 @@
   .link {
     color: var(--color-link);
     cursor: pointer;
+  }
+
+  .skeleton {
+    height: 1em;
+    margin-bottom: 2px;
+    background-color: var(--color-fg-dim);
+    animation: pulse .5s linear alternate infinite;
+    border-radius: 4px;
+  }
+  @keyframes pulse {
+    from { opacity: 0.5 }
+    to { opacity: 0.75 }
   }
 
   .aside-header {
