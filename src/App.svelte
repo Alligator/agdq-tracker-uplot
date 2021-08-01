@@ -21,6 +21,7 @@
     }
     theme = useDarkTheme ? { ...darkTheme } : { ...lightTheme };
     window.localStorage.setItem('theme', useDarkTheme ? 'dark' : 'light');
+    document.body.style.backgroundColor = theme['color-bg'];
   }
 
   let showAbout = false;
