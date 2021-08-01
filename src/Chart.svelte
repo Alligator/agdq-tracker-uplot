@@ -256,8 +256,8 @@
 
           const x = u.valToPos(u.data[0][i], u.series[0].scale, true);
           u.ctx.beginPath();
-          u.ctx.moveTo(x, 0);
-          u.ctx.lineTo(x, u.bbox.height);
+          u.ctx.moveTo(x, u.bbox.top);
+          u.ctx.lineTo(x, u.bbox.height + u.bbox.top);
           u.ctx.closePath();
           u.ctx.stroke();
 
