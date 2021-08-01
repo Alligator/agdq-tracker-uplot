@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import uPlot from "uplot";
-  import type { Options } from "uplot";
+  import type { Options, Plugin } from "uplot";
   import { GAME_NAME, GAME_TS } from "./Stats";
   import type { StatGame } from "./Stats";
   import type { Theme } from "./theme";
@@ -14,6 +14,7 @@
   export let games: StatGame[] | null = null;
   export let gameName: string = null;
   export let theme: Theme;
+  export let showLines = true;
   export let onDoubleClick: (game: StatGame) => void;
 
   $: renderChart(series, games, theme);
@@ -70,7 +71,9 @@
       legend: {
         show: false,
       },
-      plugins: [tooltipsPlugin({ valueFormatter })],
+      plugins: showLines
+        ? [tooltipsPlugin({ valueFormatter }), gameLinePlugin()]
+        : [tooltipsPlugin({ valueFormatter })],
       series: [
         {
           value: "{WWW} {HH}:{mm} {aa}",
@@ -223,6 +226,54 @@
             zoomed = true;
           }
         },
+      },
+    };
+  }
+
+  function gameLinePlugin(): Plugin {
+    function drawAxes(u: uPlot) {
+      const [startIdx, endIdx] = u.series[0].idxs;
+      if (endIdx - startIdx > 3000) {
+        return;
+      }
+
+      // find the first game
+      const startTs = u.data[0][startIdx];
+      let gameIdx = -1;
+      for (let i = 0; i < games.length; i++) {
+        if (games[i][0] > startTs) {
+          gameIdx = i;
+          break;
+        }
+      }
+
+      u.ctx.save();
+      u.ctx.strokeStyle = theme['color-fg-dimmer'];
+      u.ctx.lineWidth = 1;
+
+      for (let i = startIdx; i < endIdx; i++) {
+        if (u.data[0][i] > games[gameIdx][0]) {
+
+          const x = u.valToPos(u.data[0][i], u.series[0].scale, true);
+          u.ctx.beginPath();
+          u.ctx.moveTo(x, 0);
+          u.ctx.lineTo(x, u.bbox.height);
+          u.ctx.closePath();
+          u.ctx.stroke();
+
+          gameIdx++;
+          if (gameIdx >= games.length) {
+            break;
+          }
+        }
+      }
+
+      u.ctx.restore();
+    }
+
+    return {
+      hooks: {
+        drawAxes,
       },
     };
   }

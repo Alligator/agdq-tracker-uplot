@@ -156,6 +156,7 @@
           series={chartSeries}
           games={data.games}
           gameName={selectedGameIndex ? stats.games[selectedGameIndex][1] : null}
+          showLines={selectedGameIndex === null}
           onDoubleClick={onChartDoubleClick}
         />
       </div>

@@ -7,6 +7,7 @@ const baseVars = {
   'color-fg': '#303030',
   'color-fg-bright': '#101010',
   'color-fg-dim': '#b0b0b0',
+  'color-fg-dimmer': '#d0d0d0',
 
   'color-switch-bg': '#a0a0a0',
   'color-switch-fg': '#f0f0f0',
@@ -23,6 +24,7 @@ const darkVars = {
   'color-fg': '#e0e0e0',
   'color-fg-bright': '#f5f5f5',
   'color-fg-dim': '#606060',
+  'color-fg-dimmer': '#505050',
 
   'color-switch-bg': '#505050',
   'color-switch-fg': '#e0e0e0',
