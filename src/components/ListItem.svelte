@@ -25,17 +25,22 @@ export let active = false;
     width: 100%;
     cursor: pointer;
   }
+  .list-item.active {
+    background-color: var(--color-bg);
+  }
+  .list-item:hover {
+    background-color: var(--color-bg);
+  }
+
   .list-item:hover > .title,
   .list-item.active > .title {
     color: var(--color-fg-bright);
     font-weight: bold;
   }
-  .list-item:hover > .title {
-    font-weight: bold;
-  }
 
   .title {
     font-size: var(--text-medium);
+    font-weight: bold;
   }
 
   .subtitle {
