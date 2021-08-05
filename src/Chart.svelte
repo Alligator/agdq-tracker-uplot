@@ -169,9 +169,15 @@
       u.cursorTooltip.style.left = `${left + 10}px`;
       u.cursorTooltip.style.top = `${top + 10}px`;
 
-      const overLeft = u.over.getBoundingClientRect().left;
+      const boundingRect = u.over.getBoundingClientRect();
+      const overLeft = boundingRect.left;
       if ((left + 10 + 240 + overLeft) > window.innerWidth) {
         u.cursorTooltip.style.left = `${left - 10 - 220}px`;
+      }
+
+      const overTop = boundingRect.top;
+      if ((top + 140 + overTop) > window.innerHeight) {
+        u.cursorTooltip.style.top = `${top - 140}px`;
       }
 
       const ts = u.series[0].value(u.series[0], u.data[0][idx]);
