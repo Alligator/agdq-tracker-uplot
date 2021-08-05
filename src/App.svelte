@@ -88,6 +88,11 @@
     useDarkTheme = evt.target.checked;
   }
 
+  let resetZoom;
+  function resetChartZoom() {
+    resetZoom();
+  }
+
   const promise = fetchData();
 </script>
 
@@ -145,11 +150,20 @@
         {/each}
       </div>
       <div slot="content" style="height: 100%; display: flex; flex-direction: column;">
-        <div style="padding: var(--padding-1)">
-          <h2>{selectedGameIndex === null ? 'All Games' : stats.games[selectedGameIndex][1]}</h2>
-          <span style="font-size: var(--text-small)">
-            Click and drag to zoom in, double click to reset. Double click when zoomed out to select/deselect a specific game.
-          </span>
+        <div style="display:flex; justify-content: space-between; align-items: center;">
+          <div style="padding: var(--padding-1)">
+            <h2>{selectedGameIndex === null ? 'All Games' : stats.games[selectedGameIndex][1]}</h2>
+            <span style="font-size: var(--text-small)">
+              Click and drag to zoom in, double click to reset. Double click when zoomed out to select/deselect a specific game.
+            </span>
+          </div>
+          <button
+            type="button"
+            style="flex-shrink: 0"
+            on:click={resetChartZoom}
+          >
+            Reset zoom
+          </button>
         </div>
         <Chart
           slot="content"
@@ -159,6 +173,7 @@
           gameName={selectedGameIndex ? stats.games[selectedGameIndex][1] : null}
           showLines={selectedGameIndex === null}
           onDoubleClick={onChartDoubleClick}
+          bind:resetZoom
         />
       </div>
     </Layout>
@@ -183,6 +198,16 @@
   }
   .link {
     color: var(--color-link);
+    cursor: pointer;
+  }
+
+  :global(button) {
+    background-color: var(--color-bg-bright);
+    color: var(--color-fg);
+    padding: var(--padding-1) var(--padding-2);
+    margin-right: var(--padding-1);
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
   }
 

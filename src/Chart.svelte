@@ -36,6 +36,10 @@
     }
   }
 
+  export function resetZoom() {
+    uplot.setData(uplot.data, true);
+  }
+
   function fmtMoney(amt: number): string {
     let scaledAmt = amt;
     let suffix = '';
