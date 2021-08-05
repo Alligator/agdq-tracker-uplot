@@ -5,6 +5,7 @@
   import { GAME_NAME, GAME_TS } from "./Stats";
   import type { StatGame } from "./Stats";
   import type { Theme } from "./theme";
+  import config from './config';
 
   export let series: [
     timestamps: number[],
@@ -57,8 +58,6 @@
     }
 
     const textColor = theme['color-fg'];
-    const donationsColor = 'cornflowerblue';
-    const viewersColor = 'peru';
 
     chartEl.innerHTML = "";
     const valueFormatter = (self, rawValue: number) =>
@@ -80,7 +79,7 @@
         },
         {
           label: "Viewers",
-          stroke: viewersColor,
+          stroke: config.viewersColor,
           width: 1.5,
           scale: "viewers",
           spanGaps: false,
@@ -88,7 +87,7 @@
         },
         {
           label: "Donations",
-          stroke: donationsColor,
+          stroke: config.donationsColor,
           width: 1.5,
           scale: "donations",
           value: valueFormatter,

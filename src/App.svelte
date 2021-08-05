@@ -9,6 +9,7 @@
   import About from './About.svelte';
   import { darkTheme, lightTheme } from './theme';
   import Switch from "./components/Switch.svelte";
+  import config from './config';
 
   let useDarkTheme = window.localStorage.getItem('theme') === 'dark';
   let theme;
@@ -62,7 +63,7 @@
   }
 
   async function fetchData(): Promise<Stats> {
-    const res = await fetch("sgdq21.json");
+    const res = await fetch(config.statsFilePath);
     if (!res.ok) {
       throw new Error(res.status.toString());
     }
@@ -99,7 +100,7 @@
         <div slot="aside">
           <div class="aside-header">
             <div>
-              <h1>SGDQ 2021 Stats</h1>
+              <h1>{config.marathonName} Stats</h1>
               <span class="link" on:click={() => { showAbout = true }}>about</span>
             </div>
             <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
@@ -122,7 +123,7 @@
       <div slot="aside">
         <div class="aside-header">
           <div>
-            <h1>SGDQ 2021 Stats</h1>
+            <h1>{config.marathonName} Stats</h1>
             <span class="link" on:click={() => { showAbout = true }}>about</span>
           </div>
           <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
