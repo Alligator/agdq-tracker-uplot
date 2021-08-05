@@ -1,3 +1,1 @@
-- flesh out about page
 - tooltip overflowing bottom of page
-- re-render chart after window resize

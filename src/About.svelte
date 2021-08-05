@@ -13,7 +13,7 @@
   <div class="about">
     <button type="button" on:click={onClose}>✖</button>
     <h2>About</h2>
-    <p>GDQ stats, by <a href="https://alligatr.co.uk">alligator</a>. Here are some useful links:</p>
+    <p>GDQ stats by <a href="https://alligatr.co.uk">alligator</a>. Here are some useful links:</p>
     <ul>
       <li>
         <a href="https://irc.alligatr.co.uk/agdq-comparison-uplot/">Marathon comparison chart</a>
@@ -29,8 +29,9 @@
       </li>
     </ul>
     <p>Special thanks to UA for giving the tracker JSON output and to the GDQ staff for keeping the schedule up to date during marathons.</p>
-    <p>UI powered by <a href="https://svelte.dev/">Svelte</a> and <a href="https://leeoniya.github.io/uPlot/">uPlot</a>.</p>
-
+    <p>
+      UI powered by <a href="https://svelte.dev/">Svelte</a> and <a href="https://leeoniya.github.io/uPlot/">uPlot</a>.
+    </p>
   </div>
 </div>
 
