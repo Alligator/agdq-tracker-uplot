@@ -82,6 +82,7 @@
           stroke: config.viewersColor,
           width: 1.5,
           scale: "viewers",
+          paths: uPlot.paths.stepped({}),
           spanGaps: false,
           points: { show: false },
         },
