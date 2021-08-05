@@ -1,8 +1,19 @@
 <script lang="ts">
 export let active = false;
+
+let el: HTMLButtonElement;
+
+$: {
+  if (active && el) {
+    const elTop = el.getBoundingClientRect().top;
+    if (elTop < 0 || elTop > window.innerHeight) {
+      el.scrollIntoView();
+    }
+  }
+}
 </script>
 
-<button class="list-item" class:active type="button" on:click>
+<button class="list-item" class:active type="button" bind:this={el} on:click>
   <div class="title">
     <slot name="title"></slot>
   </div>
@@ -24,6 +35,8 @@ export let active = false;
     padding: var(--padding-2) var(--padding-1);
     width: 100%;
     cursor: pointer;
+
+    scroll-margin-top: 45px;
   }
   .list-item.active {
     background-color: var(--color-bg);
