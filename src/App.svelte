@@ -110,7 +110,11 @@
 
   let resetZoom;
   function resetChartZoom() {
-    resetZoom();
+    if (selectedGameIndex === null) {
+      resetZoom();
+    } else {
+      selectedGameIndex = null;
+    }
   }
 
   const promise = fetchData();
