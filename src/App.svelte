@@ -1,7 +1,7 @@
 <script lang="ts">
   import "uplot/dist/uPlot.min.css";
   import cssVars from 'svelte-css-vars';
-  import { ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS, GAME_TS } from "./Stats";
+  import { ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS, GAME_RUNNERS, GAME_TS } from "./Stats";
   import type { Stats, StatGame } from './Stats';
   import Layout from "./components/Layout.svelte";
   import ListItem from "./components/ListItem.svelte";
@@ -29,6 +29,8 @@
   let stats: Stats = null;
   let selectedGameIndex: number | null = null;
   let chartSeries: [number[], number[], number[]] = [[], [], []];
+  let currentGameDonationChange: string = '';
+  let currentGameDuration: string = '';
 
   $: {
     chartSeries = [[], [], []];
@@ -43,9 +45,14 @@
       const nextGame = stats.games[selectedGameIndex + 1];
       const nextGameTime = nextGame ? nextGame[GAME_TS] : Infinity;
       let inGame = false;
+
+      let startDonationTotal = 0;
+      let startTimestamp = 0;
       for (let i = 0; i < stats.viewers.length; i++) {
         if (stats.viewers[i][ENTRY_TS] >= game[GAME_TS] && !inGame) {
           inGame = true;
+          startDonationTotal = stats.viewers[i][ENTRY_DONATIONS];
+          startTimestamp = stats.viewers[i][ENTRY_TS];
         }
 
         if (inGame) {
@@ -55,6 +62,19 @@
         }
 
         if (stats.viewers[i][ENTRY_TS] > nextGameTime && inGame) {
+          const donations = stats.viewers[i][ENTRY_DONATIONS] - startDonationTotal;
+          currentGameDonationChange = Math.round(donations).toLocaleString();
+
+          const timeDiff = stats.viewers[i][ENTRY_TS] - startTimestamp;
+          const mins = Math.floor((timeDiff / 60) % 60);
+          const hours = Math.floor(timeDiff / 60 / 60);
+
+          if (hours >= 1) {
+            currentGameDuration = `${hours} hour${hours === 1 ? '' : 's'} ${mins} minute${mins === 1 ? '' : 's'}`;
+          } else {
+            currentGameDuration = `${mins} minutes`;
+          }
+
           break;
         }
       }
@@ -146,6 +166,24 @@
         >
           <svelte:fragment slot="title">{game[1]}</svelte:fragment>
           <svelte:fragment slot="subtitle">{game[3]}</svelte:fragment>
+          {#if selectedGameIndex === i}
+          <div style="font-size: var(--text-small); margin-top: var(--padding-1); line-height: 1.5">
+            Runner(s):
+            <strong style="color: var(--color-fg-bright)">
+              {stats.games[selectedGameIndex][GAME_RUNNERS]}
+            </strong>
+            <br />
+            Duration:
+            <strong style="color: var(--color-fg-bright)">
+               {currentGameDuration}
+            </strong>
+            <br />
+            Donations during:
+            <strong style="color: mediumseagreen">
+              ${currentGameDonationChange}
+            </strong>
+          </div>
+          {/if}
         </ListItem>
         {/each}
       </div>

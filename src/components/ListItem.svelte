@@ -20,6 +20,7 @@ $: {
   <div class="subtitle">
     <slot name="subtitle"></slot>
   </div>
+  <slot></slot>
 </button>
 
 <style>
