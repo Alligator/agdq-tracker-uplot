@@ -2,8 +2,8 @@
   import { onMount } from "svelte";
   import uPlot from "uplot";
   import type { Options, Plugin } from "uplot";
-  import { GAME_NAME, GAME_TS } from "./Stats";
-  import type { StatGame } from "./Stats";
+  import { GAME_NAME, GAME_TS } from "./types";
+  import type { StatGame } from "./types";
   import type { Theme } from "./theme";
   import config from './config';
 

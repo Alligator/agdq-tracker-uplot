@@ -12,3 +12,5 @@ export interface Stats {
   games: StatGame[];
   viewers: StatEntry[];
 }
+
+export type ChartSeries = [number[], number[], number[]];

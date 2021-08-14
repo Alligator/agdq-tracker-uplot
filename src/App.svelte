@@ -1,8 +1,8 @@
 <script lang="ts">
   import "uplot/dist/uPlot.min.css";
   import cssVars from 'svelte-css-vars';
-  import { ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS, GAME_RUNNERS, GAME_TS } from "./Stats";
-  import type { Stats, StatGame } from './Stats';
+  import { ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS, GAME_RUNNERS, GAME_TS } from "./types";
+  import type { Stats, StatGame } from './types';
   import Layout from "./components/Layout.svelte";
   import ListItem from "./components/ListItem.svelte";
   import Chart from "./Chart.svelte";
@@ -10,6 +10,7 @@
   import { darkTheme, lightTheme } from './theme';
   import Switch from "./components/Switch.svelte";
   import config from './config';
+  import createSelectedGame from './stores/selected-game';
 
   let useDarkTheme = window.localStorage.getItem('theme') === 'dark';
   let theme;
@@ -27,60 +28,7 @@
 
   let showAbout = false;
   let stats: Stats = null;
-  let selectedGameIndex: number | null = null;
-  let chartSeries: [number[], number[], number[]] = [[], [], []];
-  let currentGameDonationChange: string = '';
-  let currentGameDuration: string = '';
-
-  $: {
-    chartSeries = [[], [], []];
-    if (stats && selectedGameIndex === null) {
-      stats.viewers.map((entry) => {
-        chartSeries[0].push(entry[ENTRY_TS]);
-        chartSeries[1].push(entry[ENTRY_VIEWERS] || null);
-        chartSeries[2].push(entry[ENTRY_DONATIONS]);
-      });
-    } else if (stats) {
-      const game = stats.games[selectedGameIndex];
-      const nextGame = stats.games[selectedGameIndex + 1];
-      const nextGameTime = nextGame ? nextGame[GAME_TS] : Infinity;
-      let inGame = false;
-
-      let startDonationTotal = 0;
-      let startTimestamp = 0;
-      for (let i = 0; i < stats.viewers.length; i++) {
-        if (stats.viewers[i][ENTRY_TS] >= game[GAME_TS] && !inGame) {
-          inGame = true;
-          startDonationTotal = stats.viewers[i][ENTRY_DONATIONS];
-          startTimestamp = stats.viewers[i][ENTRY_TS];
-        }
-
-        if (inGame) {
-          chartSeries[0].push(stats.viewers[i][ENTRY_TS]);
-          chartSeries[1].push(stats.viewers[i][ENTRY_VIEWERS] || null);
-          chartSeries[2].push(stats.viewers[i][ENTRY_DONATIONS]);
-        }
-
-        if (stats.viewers[i][ENTRY_TS] > nextGameTime && inGame) {
-          const donations = stats.viewers[i][ENTRY_DONATIONS] - startDonationTotal;
-          currentGameDonationChange = Math.round(donations).toLocaleString();
-
-          const timeDiff = stats.viewers[i][ENTRY_TS] - startTimestamp;
-          const mins = Math.floor((timeDiff / 60) % 60);
-          const hours = Math.floor(timeDiff / 60 / 60);
-
-          if (hours >= 1) {
-            currentGameDuration = `${hours} hour${hours === 1 ? '' : 's'} ${mins} minute${mins === 1 ? '' : 's'}`;
-          } else {
-            currentGameDuration = `${mins} minutes`;
-          }
-
-          break;
-        }
-      }
-    }
-    chartSeries = chartSeries;
-  }
+  const selectedGame = createSelectedGame();
 
   async function fetchData(): Promise<Stats> {
     const res = await fetch(config.statsFilePath);
@@ -88,19 +36,20 @@
       throw new Error(res.status.toString());
     }
     stats = (await res.json()) as Stats;
+    selectedGame.setGame(stats, null);
 
     return stats;
   }
 
   function onSelect(gameIndex: number | null) {
-    selectedGameIndex = gameIndex;
+    selectedGame.setGame(stats, gameIndex);
   }
 
   function onChartDoubleClick(clickedGame: StatGame) {
-    if (selectedGameIndex === null) {
-      selectedGameIndex = stats.games.findIndex((game) => game[0] === clickedGame[0]);
+    if ($selectedGame.index === null) {
+      selectedGame.setGame(stats, stats.games.findIndex((game) => game[0] === clickedGame[0]));
     } else {
-      selectedGameIndex = null;
+      selectedGame.setGame(stats, null);
     }
   }
 
@@ -110,10 +59,10 @@
 
   let resetZoom;
   function resetChartZoom() {
-    if (selectedGameIndex === null) {
+    if ($selectedGame.index === null) {
       resetZoom();
     } else {
-      selectedGameIndex = null;
+      selectedGame.setGame(stats, null);
     }
   }
 
@@ -129,7 +78,7 @@
         <div slot="aside">
           <div class="aside-header">
             <div>
-              <h1>{config.marathonName} Stats</h1>
+              <h1>{config.marathonName}</h1>
               <span class="link" on:click={() => { showAbout = true }}>about</span>
             </div>
             <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
@@ -152,40 +101,42 @@
       <div slot="aside">
         <div class="aside-header">
           <div>
-            <h1>{config.marathonName} Stats</h1>
+            <h1>{config.marathonName}</h1>
             <span class="link" on:click={() => { showAbout = true }}>about</span>
           </div>
           <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
         </div>
         <ListItem
-          active={selectedGameIndex === null}
+          active={$selectedGame.index === null}
           on:click={() => onSelect(null)}
         >
           <svelte:fragment slot="title">All games</svelte:fragment>
         </ListItem>
         {#each data.games as game, i}
         <ListItem
-          active={selectedGameIndex === i}
+          active={$selectedGame.index === i}
           on:click={() => onSelect(i)}
         >
           <svelte:fragment slot="title">{game[1]}</svelte:fragment>
           <svelte:fragment slot="subtitle">{game[3]}</svelte:fragment>
-          {#if selectedGameIndex === i}
+          {#if $selectedGame.index === i}
           <div style="font-size: var(--text-small); margin-top: var(--padding-1); line-height: 1.5">
             Runner(s):
             <strong style="color: var(--color-fg-bright)">
-              {stats.games[selectedGameIndex][GAME_RUNNERS]}
+              {stats.games[$selectedGame.index][GAME_RUNNERS]}
             </strong>
-            <br />
-            Duration:
-            <strong style="color: var(--color-fg-bright)">
-               {currentGameDuration}
-            </strong>
-            <br />
-            Donations during:
-            <strong style="color: mediumseagreen">
-              ${currentGameDonationChange}
-            </strong>
+            {#if $selectedGame.status !== 'not started'}
+              <br />
+              Duration:
+              <strong style="color: var(--color-fg-bright)">
+                {$selectedGame.duration}
+              </strong>
+              <br />
+              Donations during:
+              <strong style="color: mediumseagreen">
+                {$selectedGame.donationChanges}
+              </strong>
+            {/if}
           </div>
           {/if}
         </ListItem>
@@ -194,7 +145,7 @@
       <div slot="content" style="height: 100%; display: flex; flex-direction: column;">
         <div style="display:flex; justify-content: space-between; align-items: center;">
           <div style="padding: var(--padding-1)">
-            <h2>{selectedGameIndex === null ? 'All Games' : stats.games[selectedGameIndex][1]}</h2>
+            <h2>{$selectedGame.index === null ? 'All Games' : stats.games[$selectedGame.index][1]}</h2>
             <span style="font-size: var(--text-small)">
               Click and drag to zoom in, double click to reset. Double click when zoomed out to select/deselect a specific game.
             </span>
@@ -207,16 +158,20 @@
             Reset zoom
           </button>
         </div>
-        <Chart
-          slot="content"
-          theme={theme}
-          series={chartSeries}
-          games={data.games}
-          gameName={selectedGameIndex ? stats.games[selectedGameIndex][1] : null}
-          showLines={selectedGameIndex === null}
-          onDoubleClick={onChartDoubleClick}
-          bind:resetZoom
-        />
+        {#if $selectedGame.status === 'not started'}
+          <p style="padding: var(--padding-1); color: var(--color-fg-dim)">This game hasn't started yet.</p>
+        {:else}
+          <Chart
+            slot="content"
+            theme={theme}
+            series={$selectedGame.chartSeries}
+            games={data.games}
+            gameName={$selectedGame.index ? stats.games[$selectedGame.index][1] : null}
+            showLines={$selectedGame.index === null}
+            onDoubleClick={onChartDoubleClick}
+            bind:resetZoom
+          />
+        {/if}
       </div>
     </Layout>
   {:catch error}
