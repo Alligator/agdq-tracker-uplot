@@ -158,11 +158,12 @@
             Reset zoom
           </button>
         </div>
-        {#if $selectedGame.status === 'not started'}
+        {#if !stats.viewers || stats.viewers.length === 0}
+          <p style="padding: var(--padding-1); color: var(--color-fg-dim)">This marathon hasn't started yet.</p>
+        {:else if $selectedGame.status === 'not started'}
           <p style="padding: var(--padding-1); color: var(--color-fg-dim)">This game hasn't started yet.</p>
         {:else}
           <Chart
-            slot="content"
             theme={theme}
             series={$selectedGame.chartSeries}
             games={data.games}

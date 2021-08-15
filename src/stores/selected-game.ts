@@ -53,6 +53,17 @@ function createSelectedGame() {
       const nextGame = stats.games[gameIndex + 1];
       const nextGameTime = nextGame ? nextGame[GAME_TS] : Infinity;
 
+      // bail out early if the marathon hasn't started
+      if (!stats.viewers || stats.viewers.length === 0) {
+        return {
+          index: gameIndex,
+          status: GameStatus.NotStarted,
+          chartSeries: chartSeries,
+          donationChanges: null,
+          duration: null,
+        };
+      }
+
       // bail out early if the game hasn't started
       const latestTs = stats.viewers[stats.viewers.length - 1][ENTRY_TS];
       if (game[GAME_TS] > latestTs) {
@@ -91,7 +102,7 @@ function createSelectedGame() {
       }
 
       const donations = stats.viewers[endIndex][ENTRY_DONATIONS] - startDonationTotal;
-      donationChanges = Math.round(donations).toLocaleString();
+      donationChanges = '$' + Math.round(donations).toLocaleString();
 
       const timeDiff = stats.viewers[endIndex][ENTRY_TS] - startTimestamp;
       const mins = Math.floor((timeDiff / 60) % 60);
