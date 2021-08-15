@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import uPlot from "uplot";
   import type { Options, Plugin } from "uplot";
   import { GAME_NAME, GAME_TS } from "./types";
@@ -35,6 +35,9 @@
       resizeObserver.observe(chartEl);
     }
   }
+  onDestroy(() => {
+    resizeObserver.disconnect();
+  });
 
   export function resetZoom() {
     uplot.setData(uplot.data, true);
