@@ -188,9 +188,9 @@
       }
 
       const ts = u.series[0].value(u.series[0], u.data[0][idx]);
-      const viewers = u.series[1].value(u.series[1], u.data[1][idx]);
+      const viewers = u.series[1].value(u.series[1], u.data[1][idx]) || 0;
       const viewerColor = u.series[1].stroke();
-      const donations = u.series[2].value(u.series[2], u.data[2][idx]);
+      const donations = u.series[2].value(u.series[2], u.data[2][idx]) || 0;
       const donationColor = u.series[2].stroke();
 
       let gameHtml = "";
