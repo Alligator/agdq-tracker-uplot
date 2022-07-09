@@ -36,6 +36,7 @@ $: {
     padding: var(--padding-2) var(--padding-1);
     width: 100%;
     cursor: pointer;
+    border-bottom: 1px solid var(--color-bg);
 
     scroll-margin-top: 45px;
   }

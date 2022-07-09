@@ -71,7 +71,29 @@
 
 <main use:cssVars="{theme}">
   {#if showAbout}
-    <About onClose={() => { showAbout = false }} />
+    <About title="About" onClose={() => { showAbout = false }}>
+      <svelte:fragment slot="content">
+        <p>GDQ stats by <a href="https://alligatr.co.uk">alligator</a>.</p>
+        <ul>
+          <li>
+            <a href="https://irc.alligatr.co.uk/agdq-comparison-uplot/">Marathon comparison chart</a>
+          </li>
+          <li>
+            <a href="https://gdq.alligatr.co.uk/">Trackers for previous marathons</a>
+          </li>
+          <li>
+            <a href="https://github.com/Alligator/agdq-tracker-uplot">Source code for this page</a>
+          </li>
+          <li>
+            <a href="https://github.com/Alligator/agdq-tracker">Source code for the data fetching script</a>
+          </li>
+        </ul>
+        <p>Special thanks to UA for giving the tracker JSON output and to the GDQ staff for keeping the schedule up to date during marathons.</p>
+        <p>
+          UI powered by <a href="https://svelte.dev/">Svelte</a> and <a href="https://leeoniya.github.io/uPlot/">uPlot</a>.
+        </p>
+      </svelte:fragment>
+    </About>
   {/if}
   {#await promise}
       <Layout>

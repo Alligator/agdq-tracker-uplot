@@ -3,3 +3,6 @@
 .vscode/
 
 .DS_Store
+public/*/bundle.*
+public/comp/global.css
+public/tracker/global.css

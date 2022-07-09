@@ -5,7 +5,7 @@
 
 <label>
   {label}
-  <input type="checkbox" class="switch" checked={checked} on:click />
+  <input type="checkbox" class="switch" checked={checked} on:click|stopPropagation />
 </label>
 
 <style>

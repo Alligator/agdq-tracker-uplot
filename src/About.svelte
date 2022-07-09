@@ -1,5 +1,7 @@
 <script lang="ts">
   export let onClose: () => void;
+  export let title: string;
+  export let big: boolean = false;
 
   let overlayEl: HTMLDivElement;
   function onClick(evt: MouseEvent) {
@@ -10,28 +12,10 @@
 </script>
 
 <div class="overlay" bind:this={overlayEl} on:click={onClick}>
-  <div class="about">
+  <div class="about {big ? 'big' : ''}">
     <button type="button" on:click={onClose}>✖</button>
-    <h2>About</h2>
-    <p>GDQ stats by <a href="https://alligatr.co.uk">alligator</a>. Here are some useful links:</p>
-    <ul>
-      <li>
-        <a href="https://irc.alligatr.co.uk/agdq-comparison-uplot/">Marathon comparison chart</a>
-      </li>
-      <li>
-        <a href="https://gdq.alligatr.co.uk/">Trackers for previous marathons</a>
-      </li>
-      <li>
-        <a href="https://github.com/Alligator/agdq-tracker-uplot">Source code for this page</a>
-      </li>
-      <li>
-        <a href="https://github.com/Alligator/agdq-tracker">Source code for the data fetching script</a>
-      </li>
-    </ul>
-    <p>Special thanks to UA for giving the tracker JSON output and to the GDQ staff for keeping the schedule up to date during marathons.</p>
-    <p>
-      UI powered by <a href="https://svelte.dev/">Svelte</a> and <a href="https://leeoniya.github.io/uPlot/">uPlot</a>.
-    </p>
+    <h2>{title}</h2>
+    <slot name="content"></slot>
   </div>
 </div>
 
@@ -80,13 +64,12 @@
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
     margin-top: 40px;
   }
+  .big {
+    width: 700px;
+  }
 
   h2 {
     font-size: var(--text-large);
     text-align: center;
-  }
-  h3 {
-    margin: 0;
-    padding-top: var(--padding-2);
   }
 </style>

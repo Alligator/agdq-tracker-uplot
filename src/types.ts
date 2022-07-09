@@ -14,3 +14,16 @@ export interface Stats {
 }
 
 export type ChartSeries = [number[], number[], number[]];
+
+export interface CompStats {
+  ts: number[];
+  viewers: number[][];
+  donations: number[][];
+  marathons: string[];
+  meta: {
+    max_donations: number;
+    max_viewers: number;
+    max_viewers_ts: number;
+    max_viewers_game: string;
+  }[],
+}
