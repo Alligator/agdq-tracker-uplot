@@ -73,7 +73,7 @@
   {#if showAbout}
     <About title="About" onClose={() => { showAbout = false }}>
       <svelte:fragment slot="content">
-        <p>GDQ stats by <a href="https://alligatr.co.uk">alligator</a>.</p>
+        <p>Made with ☕ by <a href="https://alligatr.co.uk">alligator</a>.</p>
         <ul>
           <li>
             <a href="https://irc.alligatr.co.uk/agdq-comparison-uplot/">Marathon comparison chart</a>
@@ -130,14 +130,14 @@
         </div>
         <ListItem
           active={$selectedGame.index === null}
-          on:click={() => onSelect(null)}
+          onClick={() => onSelect(null)}
         >
           <svelte:fragment slot="title">All games</svelte:fragment>
         </ListItem>
         {#each data.games as game, i}
         <ListItem
           active={$selectedGame.index === i}
-          on:click={() => onSelect(i)}
+          onClick={() => onSelect(i)}
         >
           <svelte:fragment slot="title">{game[1]}</svelte:fragment>
           <svelte:fragment slot="subtitle">{game[3]}</svelte:fragment>

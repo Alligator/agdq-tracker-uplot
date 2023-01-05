@@ -13,9 +13,13 @@
 
 <div class="overlay" bind:this={overlayEl} on:click={onClick}>
   <div class="about {big ? 'big' : ''}">
-    <button type="button" on:click={onClose}>✖</button>
-    <h2>{title}</h2>
-    <slot name="content"></slot>
+    <header>
+      <h2>{title}</h2>
+      <button type="button" on:click={onClose}>✖</button>
+    </header>
+    <article>
+      <slot name="content"></slot>
+    </article>
   </div>
 </div>
 
@@ -34,27 +38,14 @@
   }
 
   button {
-    /* button overrides */
+    margin: 0;
     background-color: rgba(0, 0, 0, 0);
-    color: inherit;
-    border: none;
-    display: block;
-    text-align: left;
-    font-family: inherit;
-    font-size: 16pt;
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin-right: 5px;
-    margin-top: 5px;
-    cursor: pointer;
   }
   button:hover {
     color: var(--color-fg-bright);
   }
 
   .about {
-    padding: var(--padding-3);
     width: 350px;
     background-color: var(--color-bg);
     position: absolute;
@@ -68,8 +59,26 @@
     width: 700px;
   }
 
-  h2 {
+  header {
+    border-radius: 4px 4px 0 0;
+    background-color: var(--color-bg-dimbright);
+    padding: var(--padding-1) var(--padding-1) var(--padding-1) var(--padding-3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  article {
+    padding: var(--padding-2) var(--padding-3);
+  }
+
+  header h2 {
     font-size: var(--text-large);
-    text-align: center;
+    color: var(--color-fg-subtle);
+  }
+  .about :global(h3) {
+    font-size: var(--text-large);
+  }
+  .about :global(ul) {
+    padding-left: 1em;
   }
 </style>

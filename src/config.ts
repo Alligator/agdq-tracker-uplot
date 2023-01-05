@@ -6,8 +6,8 @@ export interface TrackerConfig {
 }
 
 const config: TrackerConfig = {
-  marathonName: 'SGDQ 2022',
-  statsFilePath: 'sgdq22.json',
+  marathonName: 'AGDQ 20223',
+  statsFilePath: 'agdq23.json',
   donationsColor: '#D4674A',
   viewersColor: '#489FB0',
 };

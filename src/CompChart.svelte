@@ -10,12 +10,13 @@
 import { fmtMarathonName } from "./utils";
 
   export let timestamps: number[];
-  export let donationsSeries: number[][];
+  export let data: number[][];
   export let marathons: string[];
   export let enabledMarathons: boolean[];
   export let theme: Theme;
+  export let format: 'viewers' | 'donations';
 
-  $: renderChart(timestamps, donationsSeries, marathons, enabledMarathons, theme);
+  $: renderChart(timestamps, data, marathons, enabledMarathons, theme);
 
   let chartEl: HTMLDivElement;
   let resizeObserver: ResizeObserver;
@@ -58,7 +59,7 @@ import { fmtMarathonName } from "./utils";
 
   function renderChart(
     timestamps: number[],
-    donationsSeries: number[][],
+    data: number[][],
     marathons: string[],
     enabledMarathons: boolean[],
     theme: Theme,
@@ -67,13 +68,18 @@ import { fmtMarathonName } from "./utils";
       return;
     }
 
-    const series = [timestamps, ...donationsSeries.filter((_, i) => enabledMarathons[i])];
+    const series = [timestamps, ...data.filter((_, i) => enabledMarathons[i])];
 
     const textColor = theme['color-fg'];
 
     chartEl.innerHTML = "";
-    const valueFormatter = (self, rawValue: number) =>
-      rawValue ? "$" + uPlot.fmtNum(Math.round(rawValue)) : rawValue;
+    let valueFormatter = (self, rawValue: number) => rawValue ? "$" + uPlot.fmtNum(Math.round(rawValue)) : rawValue;
+    let tickFormatter = (self, ticks) => ticks.map((tick) => '$' + fmtMoney(tick));
+    
+    if (format === 'viewers') {
+      valueFormatter = (self, rawValue: number) => rawValue ? uPlot.fmtNum(Math.round(rawValue)) : rawValue;
+      tickFormatter = (self, ticks) => ticks.map(uPlot.fmtNum);
+    }
 
     const seriesOpts = marathons
       .map((name, i): uPlot.Series => ({
@@ -118,8 +124,7 @@ import { fmtMarathonName } from "./utils";
           stroke: textColor,
           grid: { stroke: theme['color-fg-dimmer'], width: 1 },
           ticks: { stroke: theme['color-fg-dim'] },
-          values: (self, ticks) =>
-            ticks.map((tick) => '$' + fmtMoney(tick)),
+          values: tickFormatter,
         },
       ],
     };
@@ -127,7 +132,7 @@ import { fmtMarathonName } from "./utils";
     uplot = new uPlot(opts, series as uPlot.AlignedData, chartEl);
   }
 
-  onMount(() => renderChart(timestamps, donationsSeries, marathons, enabledMarathons, theme));
+  onMount(() => renderChart(timestamps, data, marathons, enabledMarathons, theme));
 
   function tooltipsPlugin(opts) {
     function init(u, opts, data) {

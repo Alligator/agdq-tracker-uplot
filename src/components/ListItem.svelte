@@ -1,7 +1,8 @@
 <script lang="ts">
 export let active = false;
+export let onClick: () => void = null;
 
-let el: HTMLButtonElement;
+let el: HTMLElement;
 
 $: {
   if (active && el) {
@@ -13,7 +14,8 @@ $: {
 }
 </script>
 
-<button class="list-item" class:active type="button" bind:this={el} on:click>
+{#if onClick !== null}
+<button class="list-item" class:active class:clickable={onClick !== null} type="button" bind:this={el} on:click={onClick}>
   <div class="title">
     <slot name="title"></slot>
   </div>
@@ -22,6 +24,17 @@ $: {
   </div>
   <slot></slot>
 </button>
+{:else}
+<div class="list-item" class:active type="button" bind:this={el}>
+  <div class="title">
+    <slot name="title"></slot>
+  </div>
+  <div class="subtitle">
+    <slot name="subtitle"></slot>
+  </div>
+  <slot></slot>
+</div>
+{/if}
 
 <style>
   .list-item {
@@ -33,17 +46,20 @@ $: {
     text-align: left;
     font-family: inherit;
 
-    padding: var(--padding-2) var(--padding-1);
+    padding: var(--padding-1) var(--padding-1);
     width: 100%;
-    cursor: pointer;
     border-bottom: 1px solid var(--color-bg);
 
     scroll-margin-top: 45px;
+    box-sizing: border-box;
   }
   .list-item.active {
     background-color: var(--color-bg);
   }
-  .list-item:hover {
+  button.list-item {
+    cursor: pointer;
+  }
+  button.list-item:hover {
     background-color: var(--color-bg);
   }
 

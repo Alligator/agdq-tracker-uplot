@@ -29,6 +29,7 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
   let showStats = false;
   let stats: CompStats = null;
   let marathonColorMap: Record<string, string> = {};
+  let showViewers = false;
 
   let enabledMarathons: boolean[];
   if (window.localStorage.getItem('enabledMarathons')) {
@@ -41,7 +42,7 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
   $: window.localStorage.setItem('enabledMarathons', JSON.stringify(enabledMarathons));
 
   async function fetchData(): Promise<CompStats> {
-    const res = await fetch('output.json');
+    const res = await fetch('comp.json');
     if (!res.ok) {
       throw new Error(res.status.toString());
     }
@@ -82,7 +83,7 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
   {#if showAbout}
     <About title="About" onClose={() => { showAbout = false }}>
       <svelte:fragment slot="content">
-        <p>GDQ comparison by <a href="https://alligatr.co.uk">alligator</a>.</p>
+        <p>Made with ☕ by <a href="https://alligatr.co.uk">alligator</a>.</p>
         <ul>
           <li>
             <a href="https://gdq.alligatr.co.uk/">All my GDQ stuff</a>
@@ -94,6 +95,13 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
         <p>
           UI powered by <a href="https://svelte.dev/">Svelte</a> and <a href="https://leeoniya.github.io/uPlot/">uPlot</a>.
         </p>
+        <h3>What's new</h3>
+        <ul>
+          <li>Updated look to match the tracker</li>
+          <li>Marathons can be toggled on or off</li>
+          <li>&ldquo;More stats&rdquo; table</li>
+          <li>Uses pre-aggregated data to load faster</li>
+        </ul>
       </svelte:fragment>
     </About>
   {/if}
@@ -131,9 +139,21 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
           </div>
           <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
         </div>
+        <ListItem>
+          <div style="display: flex; justify-content: space-around;">
+            <label class="radio-label" for="donations">
+              <input type="radio" bind:group={showViewers} id="donations" value={false} name="showViewers">
+              Donations
+            </label>
+            <label class="radio-label" for="viewers">
+              <input type="radio" bind:group={showViewers} id="viewers" value={true} name="showViewers">
+              Viewers
+            </label>
+          </div>
+        </ListItem>
         {#each data.marathons as marathon, i}
         <ListItem
-          on:click={() => onSelect(i)}
+          onClick={() => onSelect(i)}
         >
           <div slot="title" style="display: flex; align-items: center; justify-content: space-between;">
             <span style="color: {marathonColor(i)}">
@@ -145,46 +165,30 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
               on:click={() => onSelect(i)}
             />
           </div>
-          <!-- <div slot="subtitle" style="font-size: var(--text-small); line-height: 1.5">
-            Donation total:
-            <strong style="color: var(--color-fg-bright)">
-              ${Math.round(stats.donations[data.marathons.length - i - 1].reduce((acc, val) => Math.max(acc, val), 0)).toLocaleString()}
-            </strong>
-          </div> -->
         </ListItem>
         {/each}
         <ListItem
           active={null}
-          on:click={() => onSelect(null)}
+          onClick={() => onSelect(null)}
         >
           <span style="color: var(--color-link);">
-          <!-- <button
-            slot="title"
-            type="button"
-            style="flex-shrink: 0"
-            on:click={() => onSelect(null)}
-          > -->
             Show/Hide all
           </span>
-          <!-- </button> -->
         </ListItem>
         <ListItem
           active={null}
-          on:click={() => { showStats = true; }}
+          onClick={() => { showStats = true; }}
         >
           <span style="color: var(--color-link);">
-            More stats
+            More stats!
           </span>
         </ListItem>
       </div>
       <div slot="content" style="height: 100%; display: flex; flex-direction: column;">
-        <div style="display:flex; justify-content: space-between; align-items: center;">
-          <div style="padding: var(--padding-1)">
-            <!-- <h2>{$selectedGame.index === null ? 'All Games' : stats.games[$selectedGame.index][1]}</h2> -->
-            <span style="font-size: var(--text-small)">
-              Click and drag to zoom in, double click to reset. Double click when zoomed out to select/deselect a specific game.
-            </span>
-          </div>
+        <div style="padding: var(--padding-1); display:flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: var(--text-small)">
+            Click and drag to zoom, double click to reset.
+          </span>
           <button
             type="button"
             style="flex-shrink: 0"
@@ -197,7 +201,8 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
         <CompChart
           theme={theme}
           timestamps={data.ts}
-          donationsSeries={data.donations}
+          data={showViewers ? data.viewers : data.donations}
+          format={showViewers? 'viewers' : 'donations'}
           marathons={data.marathons}
           enabledMarathons={enabledMarathons}
           bind:resetZoom
@@ -320,7 +325,18 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
     background-color: var(--color-bg-dimbright);
   }
 
-  /* tbody tr:nth-child(odd) {
-    background-color: var(--color-bg-dimbright);
-  } */
+  input[type=radio] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--color-fg);
+  }
+
+  .radio-label {
+    display: flex;
+    align-items: center;
+  }
+  .radio-label input {
+    margin-right: var(--padding-1);
+  }
+
 </style>
