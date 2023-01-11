@@ -76,7 +76,7 @@
         <p>Made with ☕ by <a href="https://alligatr.co.uk">alligator</a>.</p>
         <ul>
           <li>
-            <a href="https://irc.alligatr.co.uk/agdq-comparison-uplot/">Marathon comparison chart</a>
+            <a href="https://gdq.alligatr.co.uk/comparison/">Marathon comparison chart</a>
           </li>
           <li>
             <a href="https://gdq.alligatr.co.uk/">Trackers for previous marathons</a>
