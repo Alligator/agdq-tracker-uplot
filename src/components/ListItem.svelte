@@ -1,5 +1,6 @@
 <script lang="ts">
 export let active = false;
+export let dim = false;
 export let onClick: () => void = null;
 
 let el: HTMLElement;
@@ -15,7 +16,7 @@ $: {
 </script>
 
 {#if onClick !== null}
-<button class="list-item" class:active class:clickable={onClick !== null} type="button" bind:this={el} on:click={onClick}>
+<button class="list-item" class:active class:dim class:clickable={onClick !== null} type="button" bind:this={el} on:click={onClick}>
   <div class="title">
     <slot name="title"></slot>
   </div>
@@ -67,6 +68,10 @@ $: {
   .list-item.active > .title {
     color: var(--color-fg-bright);
     font-weight: bold;
+  }
+
+  .list-item.dim {
+    color: var(--color-fg-subtle);
   }
 
   .title {

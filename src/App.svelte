@@ -138,6 +138,7 @@
         <ListItem
           active={$selectedGame.index === i}
           onClick={() => onSelect(i)}
+          dim={$selectedGame.index !== i && game[0] > new Date().getTime() / 1000}
         >
           <svelte:fragment slot="title">{game[1]}</svelte:fragment>
           <svelte:fragment slot="subtitle">{game[3]}</svelte:fragment>
