@@ -124,7 +124,7 @@
         <div class="aside-header">
           <div>
             <h1>{config.marathonName}</h1>
-            <span class="link" on:click={() => { showAbout = true }}>about</span>
+            <button class="link" on:click={() => { showAbout = true }}>about</button>
           </div>
           <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
         </div>
@@ -181,7 +181,7 @@
             Reset zoom
           </button>
         </div>
-        {#if !stats.viewers || stats.viewers.length === 0}
+        {#if !stats.viewers || stats.viewers.length < 2}
           <p style="padding: var(--padding-1); color: var(--color-fg-dim)">This marathon hasn't started yet.</p>
         {:else if $selectedGame.status === 'not started'}
           <p style="padding: var(--padding-1); color: var(--color-fg-dim)">This game hasn't started yet.</p>
@@ -217,7 +217,18 @@
   :global(a), :global(a:visited) {
     color: var(--color-link);
   }
-  .link {
+  button.link {
+    /* button overrides */
+    background-color: inherit;
+    color: inherit;
+    border: none;
+    display: block;
+    text-align: left;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0;
+    margin: 0;
+
     color: var(--color-link);
     cursor: pointer;
   }

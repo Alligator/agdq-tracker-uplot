@@ -26,7 +26,7 @@ $: {
   <slot></slot>
 </button>
 {:else}
-<div class="list-item" class:active type="button" bind:this={el}>
+<div class="list-item" class:active bind:this={el}>
   <div class="title">
     <slot name="title"></slot>
   </div>

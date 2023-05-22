@@ -1,13 +1,10 @@
 <script lang="ts">
-  import { onMount, onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
+  import type { Options } from "uplot";
   import uPlot from "uplot";
-  import type { Options, Plugin } from "uplot";
-  import { GAME_NAME, GAME_TS } from "./types";
-  import type { StatGame } from "./types";
-  import type { Theme } from "./theme";
-  import config from './config';
   import { marathonColor } from "./colors";
-import { fmtMarathonName } from "./utils";
+  import type { Theme } from "./theme";
+  import { fmtMarathonName } from "./utils";
 
   export let timestamps: number[];
   export let data: number[][];
