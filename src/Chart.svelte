@@ -187,10 +187,10 @@
         u.cursorTooltip.style.top = `${top - 140}px`;
       }
 
-      const ts = u.series[0].value(u.series[0], u.data[0][idx]);
-      const viewers = u.series[1].value(u.series[1], u.data[1][idx]) || 0;
+      const ts = u.series[0].value(u, u.data[0][idx], 0, idx);
+      const viewers = u.series[1].value(u.series[1], u.data[1][idx], 1, idx) || 0;
       const viewerColor = u.series[1].stroke();
-      const donations = u.series[2].value(u.series[2], u.data[2][idx]) || 0;
+      const donations = u.series[2].value(u.series[2], u.data[2][idx], 2, idx) || 0;
       const donationColor = u.series[2].stroke();
 
       let gameHtml = "";
