@@ -3,30 +3,24 @@
     // fg for the latest marathon
     'var(--color-fg)',
 
-    // kinda orange?
-    '#fe9929',
-    '#ec7014',
-    '#cc4c02',
+    // 12-bit rainbow
+    '#938',
+    '#a45',
+    '#c66',
+    '#e94',
+    '#ca0',
+    '#8c4',
+    '#4d8',
+    '#2cb',
+    '#0bc',
+    '#09c',
+    '#36b',
+    '#75a',
 
-    // green
-    '#69c8a3',
-    '#3ca276',
-    '#297760',
-
-    // purple
-    '#8c96c6',
-    '#8c6bb1',
-    '#88419d',
-
-    // blue
-    '#6baed6',
-    '#4292c6',
-    '#2171b5',
-
-    // grey
-    '#bdbdbd',
-    '#969696',
-    '#737373',
+    // everything else is grey
+    '#a99',
+    '#8a8',
+    '#77a',
   ];
 
   export function marathonColor(marathonIndex: number): string {
