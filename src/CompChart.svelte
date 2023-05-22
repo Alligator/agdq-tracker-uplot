@@ -187,7 +187,7 @@
 
       values.sort((a, b) => b.val - a.val);
 
-      const ts = u.series[0].value(u.series[0], u.data[0][idx])
+      const ts = u.series[0].value(u, u.data[0][idx], 0, idx);
       const tooltipContent = [ts];
       values.forEach(({ series, val }) => {
         const formattedVal = val ? opts.valueFormatter(val, val) : 'N/A';

@@ -24,5 +24,8 @@
   ];
 
   export function marathonColor(marathonIndex: number): string {
-    return colors[marathonIndex % colors.length];
+    if (marathonIndex < colors.length) {
+      return colors[marathonIndex];
+    }
+    return colors[colors.length - 1];
   }
