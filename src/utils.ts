@@ -1,7 +1,19 @@
 import uPlot from "uplot";
 
 export function fmtMarathonName(name: string): string {
-  return name.substring(0, 4).toUpperCase() + ` '` + name.substring(4, 6);
+  const match = /([a-z]+)(\d\d)/.exec(name);
+  let marathonName = match[1];
+  switch (match[1]) {
+    case 'flame': {
+      marathonName = 'Flame Fatales';
+      break;
+    }
+    case 'frost': {
+      marathonName = 'Frost Fatales';
+      break;
+    }
+  }
+  return `${marathonName} '${match[2]}`;
 }
 
 export function fmtMoney(amt: number): string {

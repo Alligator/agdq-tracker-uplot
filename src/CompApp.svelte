@@ -2,14 +2,14 @@
   import cssVars from 'svelte-css-vars';
   import "uplot/dist/uPlot.min.css";
   import About from './About.svelte';
-import { marathonColor } from './colors';
+  import { marathonColor } from './colors';
   import CompChart from "./CompChart.svelte";
   import Layout from "./components/Layout.svelte";
   import ListItem from "./components/ListItem.svelte";
   import Switch from "./components/Switch.svelte";
   import { darkTheme,lightTheme } from './theme';
   import type { CompStats } from "./types";
-import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
+  import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
 
   let useDarkTheme = window.localStorage.getItem('theme') === 'dark';
   let theme;
@@ -79,6 +79,9 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
   const promise = fetchData();
 </script>
 
+<svelte:head>
+  <title>alligator's FF comparison</title>
+</svelte:head>
 <main use:cssVars="{theme}">
   {#if showAbout}
     <About title="About" onClose={() => { showAbout = false }}>
@@ -95,13 +98,6 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
         <p>
           UI powered by <a href="https://svelte.dev/">Svelte</a> and <a href="https://leeoniya.github.io/uPlot/">uPlot</a>.
         </p>
-        <h3>What's new</h3>
-        <ul>
-          <li>Updated look to match the tracker</li>
-          <li>Marathons can be toggled on or off</li>
-          <li>&ldquo;More stats&rdquo; table</li>
-          <li>Uses pre-aggregated data to load faster</li>
-        </ul>
       </svelte:fragment>
     </About>
   {/if}
@@ -111,7 +107,7 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
         <div slot="aside">
           <div class="aside-header">
             <div>
-              <h1>GDQ Comparison</h1>
+              <h1>FF Comparison</h1>
               <span class="link" on:click={() => { showAbout = true }}>about</span>
             </div>
             <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
@@ -134,7 +130,7 @@ import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
       <div slot="aside">
         <div class="aside-header">
           <div>
-            <h1>GDQ Comparison</h1>
+            <h1>FF Comparison</h1>
             <span class="link" on:click={() => { showAbout = true }}>about</span>
           </div>
           <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />

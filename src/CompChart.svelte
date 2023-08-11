@@ -85,7 +85,7 @@
         width: i === 0 ? 2.5 : 1.5,
         paths: uPlot.paths.spline(),
         value: valueFormatter,
-        spanGaps: true,
+        spanGaps: false,
       }))
       .filter((_, i) => enabledMarathons[i]);
 
