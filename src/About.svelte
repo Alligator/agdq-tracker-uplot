@@ -48,15 +48,16 @@
   .about {
     width: 350px;
     background-color: var(--color-bg);
-    position: absolute;
     z-index: 100;
     border-radius: 4px;
-    position: relative;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
     margin-top: 40px;
+    display: flex;
+    flex-direction: column;
   }
   .big {
-    width: 700px;
+    width: min(800px, 100vw);
+    max-height: calc(90vh - 40px);
   }
 
   header {
@@ -69,6 +70,7 @@
   }
   article {
     padding: var(--padding-2) var(--padding-3);
+    overflow-y: auto;
   }
 
   header h2 {

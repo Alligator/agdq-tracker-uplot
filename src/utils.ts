@@ -12,6 +12,8 @@ export function fmtMarathonName(name: string): string {
       marathonName = 'Frost Fatales';
       break;
     }
+    default:
+      marathonName = marathonName.toUpperCase();
   }
   return `${marathonName} '${match[2]}`;
 }

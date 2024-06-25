@@ -24,6 +24,7 @@
     background: var(--color-switch-bg);
     position: relative;
     margin-left: var(--padding-1);
+    z-index: 0;
   }
 
   .switch::after {

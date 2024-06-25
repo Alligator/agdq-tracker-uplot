@@ -10,6 +10,7 @@
   import { darkTheme,lightTheme } from './theme';
   import type { CompStats } from "./types";
   import { fmtMarathonName, fmtMoney, fmtTimestamp } from './utils';
+  import config from './config';
 
   let useDarkTheme = window.localStorage.getItem('theme') === 'dark';
   let theme;
@@ -80,7 +81,7 @@
 </script>
 
 <svelte:head>
-  <title>alligator's FF comparison</title>
+  <title>alligator's {config.compName}</title>
 </svelte:head>
 <main use:cssVars="{theme}">
   {#if showAbout}
@@ -107,7 +108,7 @@
         <div slot="aside">
           <div class="aside-header">
             <div>
-              <h1>FF Comparison</h1>
+              <h1>{config.compName}</h1>
               <span class="link" on:click={() => { showAbout = true }}>about</span>
             </div>
             <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
@@ -130,7 +131,7 @@
       <div slot="aside">
         <div class="aside-header">
           <div>
-            <h1>FF Comparison</h1>
+            <h1>{config.compName}</h1>
             <span class="link" on:click={() => { showAbout = true }}>about</span>
           </div>
           <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
@@ -296,6 +297,7 @@
     top: 0;
     display: flex;
     justify-content: space-between;
+    z-index: 1;
   }
   .aside-header h1 {
     margin: 0;

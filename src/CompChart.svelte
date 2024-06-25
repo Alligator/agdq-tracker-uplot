@@ -65,7 +65,9 @@
       return;
     }
 
-    const series = [timestamps, ...data.filter((_, i) => enabledMarathons[i])];
+    const filteredData = data.filter((_, i) => enabledMarathons[i]);
+    filteredData.reverse();
+    const series = [timestamps, ...filteredData];
 
     const textColor = theme['color-fg'];
 
@@ -88,6 +90,8 @@
         spanGaps: false,
       }))
       .filter((_, i) => enabledMarathons[i]);
+
+    seriesOpts.reverse();
 
     const opts: Options = {
       id: "chart1",

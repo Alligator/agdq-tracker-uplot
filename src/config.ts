@@ -3,20 +3,23 @@ export interface TrackerConfig {
   statsFilePath: string;
   donationsColor: string;
   viewersColor: string;
-  compLink: string | null;
+  compLink: string;
+  compName: string;
 }
 
 const config: TrackerConfig = {
-  marathonName: 'Flame Fatales 2023',
-  statsFilePath: 'flame23.json',
+  marathonName: 'Frost Fatales 2024',
+  statsFilePath: 'frost24.json',
 
   // gdq
   // compLink: 'https://gdq.alligatr.co.uk/comparison/',
+  // compName: 'GDQ Comparison',
   // donationsColor: '#D4674A',
   // viewersColor: '#489FB0',
 
   // ff
   compLink: 'https://gdq.alligatr.co.uk/ff-comparison/',
+  compName: 'FF Comparison',
   donationsColor:'#d6b567',
   viewersColor:'#f29373',
 };
