@@ -71,6 +71,10 @@
     }
   }
 
+  function selectSgdq(marathons: string[]) {
+    enabledMarathons = marathons.map(m => m.includes('sgdq'));
+  }
+
   function onThemeSelect(evt) {
     useDarkTheme = evt.target.checked;
   }
@@ -170,6 +174,14 @@
         >
           <span style="color: var(--color-link);">
             Show/Hide all
+          </span>
+        </ListItem>
+        <ListItem
+          active={null}
+          onClick={() => selectSgdq(data.marathons)}
+        >
+          <span style="color: var(--color-link);">
+            Only SGDQ
           </span>
         </ListItem>
         <ListItem
