@@ -1,27 +1,27 @@
-export interface TrackerConfig {
-  marathonName: string;
-  statsFilePath: string;
+import { MarathonType, Stats } from "./types";
+
+type MarathonConstants = {
   donationsColor: string;
   viewersColor: string;
-  compLink: string;
-  compName: string;
-}
-
-const config: TrackerConfig = {
-  marathonName: 'Frost Fatales 2024',
-  statsFilePath: 'frost24.json',
-
-  // gdq
-  // compLink: 'https://gdq.alligatr.co.uk/comparison/',
-  // compName: 'GDQ Comparison',
-  // donationsColor: '#D4674A',
-  // viewersColor: '#489FB0',
-
-  // ff
-  compLink: 'https://gdq.alligatr.co.uk/ff-comparison/',
-  compName: 'FF Comparison',
-  donationsColor:'#d6b567',
-  viewersColor:'#f29373',
+  comparisonLink: string;
 };
 
-export default config;
+const marathonConfig: Record<MarathonType, MarathonConstants> = {
+  gdq: {
+    donationsColor: '#D4674A',
+    viewersColor: '#489FB0',
+    comparisonLink: '/comparison/',
+  },
+  ff: {
+    donationsColor:'#d6b567',
+    viewersColor:'#f29373',
+    comparisonLink: '/ff-comparison/',
+  },
+  gdqx: {
+    donationsColor: "",
+    viewersColor: "",
+    comparisonLink: ""
+  }
+};
+
+export { marathonConfig };

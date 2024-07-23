@@ -8,7 +8,11 @@ export const ENTRY_TS = 0;
 export const ENTRY_VIEWERS = 1;
 export const ENTRY_DONATIONS = 2;
 
+export type MarathonType = 'gdq' | 'ff' | 'gdqx';
+
 export interface Stats {
+  marathon_name: string;
+  marathon_type: MarathonType;
   games: StatGame[];
   viewers: StatEntry[];
 }

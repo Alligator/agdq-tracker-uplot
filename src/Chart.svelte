@@ -5,7 +5,6 @@
   import { GAME_NAME, GAME_TS } from "./types";
   import type { StatGame } from "./types";
   import type { Theme } from "./theme";
-  import config from './config';
 
   export let series: [
     timestamps: number[],
@@ -17,6 +16,8 @@
   export let theme: Theme;
   export let showLines = true;
   export let onDoubleClick: (game: StatGame) => void;
+  export let viewersColor: string;
+  export let donationsColor: string;
 
   $: renderChart(series, games, theme);
 
@@ -86,7 +87,7 @@
         },
         {
           label: "Viewers",
-          stroke: config.viewersColor,
+          stroke: viewersColor,
           width: 1.5,
           scale: "viewers",
           paths: uPlot.paths.stepped({}),
@@ -95,7 +96,7 @@
         },
         {
           label: "Donations",
-          stroke: config.donationsColor,
+          stroke: donationsColor,
           width: 1.5,
           scale: "donations",
           value: valueFormatter,

@@ -1,7 +1,7 @@
 <script lang="ts">
   import "uplot/dist/uPlot.min.css";
   import cssVars from 'svelte-css-vars';
-  import { ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS, GAME_RUNNERS, GAME_TS } from "./types";
+  import { GAME_RUNNERS } from "./types";
   import type { Stats, StatGame } from './types';
   import Layout from "./components/Layout.svelte";
   import ListItem from "./components/ListItem.svelte";
@@ -9,11 +9,11 @@
   import About from './About.svelte';
   import { darkTheme, lightTheme } from './theme';
   import Switch from "./components/Switch.svelte";
-  import config from './config';
   import createSelectedGame from './stores/selected-game';
+  import { marathonConfig } from "./config";
 
   let useDarkTheme = window.localStorage.getItem('theme') === 'dark';
-  let theme;
+  let theme: typeof darkTheme | typeof lightTheme;
   $: {
     if (!window.localStorage.getItem('theme')) {
       // no saved theme, try to detect
@@ -26,12 +26,14 @@
     document.body.style.backgroundColor = theme['color-bg'];
   }
 
+  const path = window.location.pathname.split('/').at(-1);
+
   let showAbout = false;
   let stats: Stats = null;
   const selectedGame = createSelectedGame();
 
   async function fetchData(): Promise<Stats> {
-    const res = await fetch(config.statsFilePath);
+    const res = await fetch(`${path}.json`);
     if (!res.ok) {
       throw new Error(res.status.toString());
     }
@@ -69,9 +71,12 @@
   const promise = fetchData();
 </script>
 
-
 <svelte:head>
-  <title>{config.marathonName} | alligator's gdq stats</title>
+  {#await promise}
+    <title>alligator's gdq stats</title>
+  {:then data}
+    <title>{data.marathon_name} | alligator's gdq stats</title>
+  {/await}
 </svelte:head>
 
 <main use:cssVars="{theme}">
@@ -80,11 +85,9 @@
       <svelte:fragment slot="content">
         <p>Made with ☕ by <a href="https://alligatr.co.uk">alligator</a>.</p>
         <ul>
-          {#if config.compLink !== null}
           <li>
-            <a href="{config.compLink}">Marathon comparison chart</a>
+            <a href="{marathonConfig[stats.marathon_type].comparisonLink}">Marathon comparison chart</a>
           </li>
-          {/if}
           <li>
             <a href="https://gdq.alligatr.co.uk/">Trackers for previous marathons</a>
           </li>
@@ -107,7 +110,7 @@
         <div slot="aside">
           <div class="aside-header">
             <div>
-              <h1>{config.marathonName}</h1>
+              <h1>Loading</h1>
               <span class="link" on:click={() => { showAbout = true }}>about</span>
             </div>
             <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
@@ -130,7 +133,7 @@
       <div slot="aside">
         <div class="aside-header">
           <div>
-            <h1>{config.marathonName}</h1>
+            <h1>{stats.marathon_name}</h1>
             <button class="link" on:click={() => { showAbout = true }}>about</button>
           </div>
           <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
@@ -195,6 +198,8 @@
         {:else}
           <Chart
             theme={theme}
+            viewersColor={marathonConfig[stats.marathon_type].viewersColor}
+            donationsColor={marathonConfig[stats.marathon_type].donationsColor}
             series={$selectedGame.chartSeries}
             games={data.games}
             gameName={$selectedGame.index ? stats.games[$selectedGame.index][1] : null}
