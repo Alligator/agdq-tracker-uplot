@@ -1,6 +1,7 @@
 <script lang="ts">
 export let active = false;
 export let dim = false;
+export let showSubtitle = false;
 export let onClick: () => void = null;
 
 let el: HTMLElement;
@@ -21,7 +22,9 @@ $: {
     <slot name="title"></slot>
   </div>
   <div class="subtitle">
+    {#if showSubtitle}
     <slot name="subtitle"></slot>
+    {/if}
   </div>
   <slot></slot>
 </button>
@@ -81,5 +84,6 @@ $: {
 
   .subtitle {
     font-size: var(--text-small);
+    min-height: .5rem;
   }
 </style>

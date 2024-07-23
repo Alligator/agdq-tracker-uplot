@@ -147,28 +147,35 @@
         {#each data.games as game, i}
         <ListItem
           active={$selectedGame.index === i}
+          showSubtitle={game.length > 3}
           onClick={() => onSelect(i)}
           dim={$selectedGame.index !== i && game[0] > new Date().getTime() / 1000}
         >
           <svelte:fragment slot="title">{game[1]}</svelte:fragment>
           <svelte:fragment slot="subtitle">{game[3]}</svelte:fragment>
           {#if $selectedGame.index === i}
-          <div style="font-size: var(--text-small); margin-top: var(--padding-1); line-height: 1.5">
-            Runner(s):
-            <strong style="color: var(--color-fg-bright)">
-              {stats.games[$selectedGame.index][GAME_RUNNERS]}
-            </strong>
+          <div style="font-size: var(--text-small); margin-top: var(--padding-1); line-height: 1.5; display: flex; flex-direction: column;">
+            {#if stats.games[$selectedGame.index][GAME_RUNNERS]}
+              <div>
+                Runner(s):
+                <strong style="color: var(--color-fg-bright)">
+                  {stats.games[$selectedGame.index][GAME_RUNNERS]}
+                </strong>
+              </div>
+            {/if}
             {#if $selectedGame.status !== 'not started'}
-              <br />
-              Duration:
-              <strong style="color: var(--color-fg-bright)">
-                {$selectedGame.duration}
-              </strong>
-              <br />
-              Donations during:
-              <strong style="color: mediumseagreen">
-                {$selectedGame.donationChanges}
-              </strong>
+              <div>
+                Duration:
+                <strong style="color: var(--color-fg-bright)">
+                  {$selectedGame.duration}
+                </strong>
+              </div>
+              <div>
+                Donations during:
+                <strong style="color: mediumseagreen">
+                  {$selectedGame.donationChanges}
+                </strong>
+              </div>
             {/if}
           </div>
           {/if}

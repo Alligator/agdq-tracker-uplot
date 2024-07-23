@@ -1,4 +1,4 @@
-import { MarathonType, Stats } from "./types";
+import type { MarathonType } from "./types";
 
 type MarathonConstants = {
   donationsColor: string;
