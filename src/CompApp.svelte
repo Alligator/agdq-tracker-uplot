@@ -71,6 +71,14 @@
     }
   }
 
+  function selectSgdq(marathons: string[]) {
+    enabledMarathons = marathons?.map(m => m.includes('sgdq')) || [];
+  }
+
+  function selectAgdq(marathons: string[]) {
+    enabledMarathons = marathons?.map(m => m.includes('agdq')) || [];
+  }
+
   function onThemeSelect(evt) {
     useDarkTheme = evt.target.checked;
   }
@@ -170,6 +178,22 @@
         >
           <span style="color: var(--color-link);">
             Show/Hide all
+          </span>
+        </ListItem>
+        <ListItem
+          active={null}
+          onClick={() => selectSgdq(data.marathons)}
+        >
+          <span style="color: var(--color-link);">
+            Only SGDQ
+          </span>
+        </ListItem>
+        <ListItem
+          active={null}
+          onClick={() => selectAgdq(data.marathons)}
+        >
+          <span style="color: var(--color-link);">
+            Only AGDQ
           </span>
         </ListItem>
         <ListItem
