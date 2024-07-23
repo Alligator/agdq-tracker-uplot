@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public/tracker --no-clear --single",
+    "start": "sirv public/tracker --no-clear --single -p 5001",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
