@@ -245,6 +245,7 @@
         <ListItem active={null} onClick={() => onSelect(null)}>
           <span style="color: var(--color-link);"> Show/Hide all </span>
         </ListItem>
+        {#if path == 'gdq'}
         <ListItem
           active={null}
           onClick={() => selectSgdq(data.marathons)}
@@ -261,6 +262,7 @@
             Only AGDQ
           </span>
         </ListItem>
+        {/if}
         <ListItem
           active={null}
           onClick={() => { showStats = true; }}
