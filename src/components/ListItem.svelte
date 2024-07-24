@@ -84,6 +84,5 @@ $: {
 
   .subtitle {
     font-size: var(--text-small);
-    min-height: .5rem;
   }
 </style>

@@ -22,7 +22,8 @@ function serve() {
 	return {
 		writeBundle() {
 			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+      const task = process.env.GDQ_COMP ? 'start:comp' : 'start';
+			server = require('child_process').spawn('npm', ['run', task, '--', '--dev'], {
 				stdio: ['ignore', 'inherit', 'inherit'],
 				shell: true
 			});

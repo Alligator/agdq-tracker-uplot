@@ -5,7 +5,9 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
+    "dev:comp": "rollup -c -w --environment GDQ_COMP",
     "start": "sirv public/tracker --no-clear --single -p 5001",
+    "start:comp": "sirv public/comp --no-clear --single -p 5001",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {

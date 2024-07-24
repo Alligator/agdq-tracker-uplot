@@ -20,6 +20,7 @@ export interface Stats {
 export type ChartSeries = [number[], number[], number[]];
 
 export interface CompStats {
+  name: string;
   ts: number[];
   viewers: number[][];
   donations: number[][];
