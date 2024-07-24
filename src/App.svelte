@@ -26,7 +26,12 @@
     document.body.style.backgroundColor = theme['color-bg'];
   }
 
-  const path = window.location.pathname.split('/').at(-1);
+  let path: string;
+  if (window.location.pathname.endsWith('/')) {
+    path = window.location.pathname.split('/').at(-2);
+  } else {
+    path = window.location.pathname.split('/').at(-1);
+  }
 
   let showAbout = false;
   let stats: Stats = null;
