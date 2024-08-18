@@ -4,7 +4,7 @@
   import uPlot from "uplot";
   import { marathonColor } from "./colors";
   import type { Theme } from "./theme";
-  import { fmtMarathonName } from "./utils";
+  import { fmtMarathonName, getTzOffset, is12h, offsetTimestamp } from "./utils";
 
   export let timestamps: number[];
   export let data: number[][];
@@ -12,6 +12,7 @@
   export let enabledMarathons: boolean[];
   export let theme: Theme;
   export let format: 'viewers' | 'donations';
+  export let tz: string;
 
   $: renderChart(timestamps, data, marathons, enabledMarathons, theme);
 
@@ -70,6 +71,7 @@
     const series = [timestamps, ...filteredData];
 
     const textColor = theme['color-fg'];
+    const tzOffset = getTzOffset(tz);
 
     chartEl.innerHTML = "";
     let valueFormatter = (self, rawValue: number) => rawValue ? "$" + uPlot.fmtNum(Math.round(rawValue)) : rawValue;
@@ -99,12 +101,15 @@
       height: chartEl.getBoundingClientRect().height,
       plugins: [tooltipsPlugin({ valueFormatter })],
       padding: [30, 10, 0, 0],
+      tzDate: ts => offsetTimestamp(ts, tzOffset),
       legend: {
         show: false,
       },
       series: [
         {
-          value: "{WWW} {HH}:{mm} {aa}",
+          value: is12h(tz)
+            ? `{WWW} {h}:{mm} {AA} (${tz})`
+            : `{WWW} {HH}:{mm} (${tz})`,
         },
         ...seriesOpts,
       ],

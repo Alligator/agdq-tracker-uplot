@@ -5,6 +5,7 @@
   import { GAME_NAME, GAME_TS } from "./types";
   import type { StatGame } from "./types";
   import type { Theme } from "./theme";
+  import { getLocalTimezone, getTzOffset, is12h, offsetTimestamp, timezones } from './utils';
 
   export let series: [
     timestamps: number[],
@@ -18,6 +19,7 @@
   export let onDoubleClick: (game: StatGame) => void;
   export let viewersColor: string;
   export let donationsColor: string;
+  export let tz: string;
 
   $: renderChart(series, games, theme);
 
@@ -66,6 +68,7 @@
     }
 
     const textColor = theme['color-fg'];
+    const tzOffset = getTzOffset(tz);
 
     chartEl.innerHTML = "";
     const valueFormatter = (self, rawValue: number) =>
@@ -78,12 +81,15 @@
       legend: {
         show: false,
       },
+      tzDate: ts => offsetTimestamp(ts, tzOffset),
       plugins: showLines
         ? [tooltipsPlugin({ valueFormatter }), gameLinePlugin()]
         : [tooltipsPlugin({ valueFormatter })],
       series: [
         {
-          value: "{WWW} {HH}:{mm} {aa}",
+          value: is12h(tz)
+            ? `{WWW} {h}:{mm} {AA} (${tz})`
+            : `{WWW} {HH}:{mm} (${tz})`,
         },
         {
           label: "Viewers",

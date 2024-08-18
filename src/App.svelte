@@ -11,6 +11,7 @@
   import Switch from "./components/Switch.svelte";
   import createSelectedGame from './stores/selected-game';
   import { marathonConfig } from "./config";
+  import { getLocalTimezone, timezones } from './utils';
 
   let useDarkTheme = window.localStorage.getItem('theme') === 'dark';
   let theme: typeof darkTheme | typeof lightTheme;
@@ -31,6 +32,12 @@
     path = window.location.pathname.split('/').at(-2);
   } else {
     path = window.location.pathname.split('/').at(-1);
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  let tz = params.get('tz');
+  if (typeof timezones[tz] === 'undefined') {
+    tz = getLocalTimezone();
   }
 
   let showAbout = false;
@@ -217,6 +224,7 @@
             gameName={$selectedGame.index ? stats.games[$selectedGame.index][1] : null}
             showLines={$selectedGame.index === null}
             onDoubleClick={onChartDoubleClick}
+            tz={tz}
             bind:resetZoom
           />
         {/if}

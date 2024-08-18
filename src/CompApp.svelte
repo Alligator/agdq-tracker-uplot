@@ -9,7 +9,7 @@
   import Switch from "./components/Switch.svelte";
   import { darkTheme, lightTheme } from "./theme";
   import type { CompStats } from "./types";
-  import { fmtMarathonName, fmtMoney, fmtTimestamp } from "./utils";
+  import { fmtMarathonName, fmtMoney, fmtTimestamp, getLocalTimezone, timezones } from "./utils";
 
   let useDarkTheme = window.localStorage.getItem("theme") === "dark";
   let theme;
@@ -39,6 +39,11 @@
     path = window.location.pathname.split("/").at(-2);
   } else {
     path = window.location.pathname.split("/").at(-1);
+  }
+  const params = new URLSearchParams(window.location.search);
+  let tz = params.get('tz');
+  if (typeof timezones[tz] === 'undefined') {
+    tz = getLocalTimezone();
   }
 
   let enabledMarathons: boolean[];
@@ -291,6 +296,7 @@
             data={showViewers ? data.viewers : data.donations}
             format={showViewers ? "viewers" : "donations"}
             marathons={data.marathons}
+            tz={tz}
             {enabledMarathons}
             bind:resetZoom
           />
