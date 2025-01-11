@@ -22,10 +22,16 @@ export function fmtMoney(amt: number): string {
   return '$' + Math.round(amt).toLocaleString();
 }
 
-const dateFormatter = uPlot.fmtDate('{WWW} {HH}:{mm} {aa}');
-const tzOffset = new Date().getTimezoneOffset() * 60;
-export function fmtTimestamp(ts: number): string {
-  return dateFormatter(new Date((ts + tzOffset) * 1000));
+
+export function fmtTimestamp(ts: number, offset: number, tzName: string): string {
+  const dateFormatter = uPlot.fmtDate(is12h(tzName)
+    ? `{WWW} {h}:{mm} {AA} (${tzName})`
+    : `{WWW} {HH}:{mm} (${tzName})`,
+  );
+
+  // is this really the best way to do this?
+  const date = offsetTimestamp(ts, offset);
+  return dateFormatter(date);
 }
 
 export function getLocalTimezone() {

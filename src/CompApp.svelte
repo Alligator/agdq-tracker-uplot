@@ -9,7 +9,7 @@
   import Switch from "./components/Switch.svelte";
   import { darkTheme, lightTheme } from "./theme";
   import type { CompStats } from "./types";
-  import { fmtMarathonName, fmtMoney, fmtTimestamp, getLocalTimezone, timezones } from "./utils";
+  import { fmtMarathonName, fmtMoney, fmtTimestamp, getLocalTimezone, timezones, offsetTimestamp, getTzOffset } from "./utils";
 
   let useDarkTheme = window.localStorage.getItem("theme") === "dark";
   let theme;
@@ -45,6 +45,8 @@
   if (typeof timezones[tz] === 'undefined') {
     tz = getLocalTimezone();
   }
+
+  const tzOffset = getTzOffset(tz);
 
   let enabledMarathons: boolean[];
   if (window.localStorage.getItem("enabledMarathons")) {
@@ -335,7 +337,7 @@
                   </td>
                   <td>{fmtMoney(data.meta[i].max_donations)}</td>
                   <td>{data.meta[i].max_viewers.toLocaleString()}</td>
-                  <td>{fmtTimestamp(data.meta[i].max_viewers_ts)}</td>
+                  <td>{fmtTimestamp(data.meta[i].max_viewers_ts, tzOffset, tz)}</td>
                   <td>{data.meta[i].max_viewers_game}</td>
                 </tr>
               {/each}
