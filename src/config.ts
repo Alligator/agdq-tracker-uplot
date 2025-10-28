@@ -25,7 +25,11 @@ const marathonConfig: Record<MarathonType, MarathonConstants> = {
   btb: {
     donationsColor: '#D4674A',
     viewersColor: '#489FB0',
-  }
+  },
+  gdqueer: {
+    donationsColor: 'rgb(141, 120, 245)',
+    viewersColor: 'rgb(237, 128, 186)',
+  },
 };
 
 export { marathonConfig };

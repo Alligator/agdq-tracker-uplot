@@ -147,7 +147,7 @@
       <div slot="aside">
         <div class="aside-header">
           <div>
-            <h1>{stats.marathon_name}</h1>
+            <h1 class="header-{stats.marathon_type}">{stats.marathon_name}</h1>
             <button class="link" on:click={() => { showAbout = true }}>about</button>
           </div>
           <Switch label="Dark theme" on:click={onThemeSelect} checked={useDarkTheme} />
@@ -303,4 +303,19 @@
   .aside-header h1 {
     margin: 0;
   }
+
+  .header-gdqueer {
+    background-image: linear-gradient(90deg,
+      #cc4f4f 0%,   /* red   */
+      #e0813f 20%,  /* orange*/
+      #d9c63e 40%,  /* yellow*/
+      #56a977 60%,  /* green */
+      #6785ce 80%,  /* blue  */
+      #a26abb 100%  /* purple*/
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
 </style>
