@@ -8,7 +8,7 @@ export const ENTRY_TS = 0;
 export const ENTRY_VIEWERS = 1;
 export const ENTRY_DONATIONS = 2;
 
-export type MarathonType = 'gdq' | 'ff' | 'gdqx';
+export type MarathonType = 'gdq' | 'ff' | 'gdqx' | 'btb';
 
 export interface Stats {
   marathon_name: string;

@@ -97,9 +97,11 @@
       <svelte:fragment slot="content">
         <p>Made with ☕ by <a href="https://alligatr.co.uk">alligator</a>.</p>
         <ul>
+          {#if marathonConfig[stats.marathon_type].comparisonLink}
           <li>
             <a href="{marathonConfig[stats.marathon_type].comparisonLink}">Marathon comparison chart</a>
           </li>
+          {/if}
           <li>
             <a href="https://gdq.alligatr.co.uk/">Trackers for previous marathons</a>
           </li>

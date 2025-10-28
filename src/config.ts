@@ -3,7 +3,7 @@ import type { MarathonType } from "./types";
 type MarathonConstants = {
   donationsColor: string;
   viewersColor: string;
-  comparisonLink: string;
+  comparisonLink?: string;
 };
 
 const marathonConfig: Record<MarathonType, MarathonConstants> = {
@@ -21,6 +21,10 @@ const marathonConfig: Record<MarathonType, MarathonConstants> = {
     donationsColor: 'rgb(221, 165, 49)',
     viewersColor: '#489FB0',
     comparisonLink: '/comp/gdqx',
+  },
+  btb: {
+    donationsColor: '#D4674A',
+    viewersColor: '#489FB0',
   }
 };
 
