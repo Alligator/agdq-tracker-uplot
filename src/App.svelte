@@ -220,6 +220,7 @@
           <Chart
             theme={theme}
             viewersColor={marathonConfig[stats.marathon_type].viewersColor}
+            ytViewersColor={marathonConfig[stats.marathon_type].ytViewersColor}
             donationsColor={marathonConfig[stats.marathon_type].donationsColor}
             series={$selectedGame.chartSeries}
             games={data.games}

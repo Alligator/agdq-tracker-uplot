@@ -1,6 +1,5 @@
 import { writable } from 'svelte/store';
-import type { Readable } from 'svelte/store';
-import { ChartSeries, ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS, GAME_TS, Stats } from '../types';
+import { ChartSeries, ENTRY_DONATIONS, ENTRY_TS, ENTRY_VIEWERS, ENTRY_YT_VIEWERS, GAME_TS, Stats } from '../types';
 
 enum GameStatus {
   NotStarted = 'not started',
@@ -29,11 +28,12 @@ function createSelectedGame() {
       if (gameIndex === null) {
         // no game selected
         if (noGameSeriesCache === null) {
-          noGameSeriesCache = [[], [], []];
+          noGameSeriesCache = [[], [], [], []];
           stats.viewers.map((entry) => {
             noGameSeriesCache[0].push(entry[ENTRY_TS]);
             noGameSeriesCache[1].push(entry[ENTRY_VIEWERS] || null);
             noGameSeriesCache[2].push(entry[ENTRY_DONATIONS]);
+            noGameSeriesCache[3].push(entry[ENTRY_YT_VIEWERS] || null);
           });
         }
 
@@ -47,7 +47,7 @@ function createSelectedGame() {
       let status = GameStatus.InProgress;
       let duration = '';
       let donationChanges = '';
-      let chartSeries: ChartSeries = [[], [], []];
+      let chartSeries: ChartSeries = [[], [], [], []];
 
       const game = stats.games[gameIndex];
       const nextGame = stats.games[gameIndex + 1];

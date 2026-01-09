@@ -3,32 +3,35 @@ import type { MarathonType } from "./types";
 type MarathonConstants = {
   donationsColor: string;
   viewersColor: string;
+  ytViewersColor: string;
   comparisonLink?: string;
+};
+
+const defaults: MarathonConstants = {
+  donationsColor:'#d6b567',
+  viewersColor: 'rgb(165, 131, 235)',
+  ytViewersColor: '#CA636D',
+  comparisonLink: '/comp/gdq',
 };
 
 const marathonConfig: Record<MarathonType, MarathonConstants> = {
   gdq: {
-    donationsColor: '#D4674A',
-    viewersColor: '#489FB0',
+    ...defaults,
     comparisonLink: '/comp/gdq',
   },
   ff: {
-    donationsColor:'#d6b567',
-    viewersColor:'#f29373',
+    ...defaults,
     comparisonLink: '/comp/ff',
   },
   gdqx: {
-    donationsColor: 'rgb(221, 165, 49)',
-    viewersColor: '#489FB0',
+    ...defaults,
     comparisonLink: '/comp/gdqx',
   },
   btb: {
-    donationsColor: '#D4674A',
-    viewersColor: '#489FB0',
+    ...defaults,
   },
   gdqueer: {
-    donationsColor: 'rgb(141, 120, 245)',
-    viewersColor: 'rgb(237, 128, 186)',
+    ...defaults,
   },
 };
 

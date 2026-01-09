@@ -5,12 +5,13 @@
   import { GAME_NAME, GAME_TS } from "./types";
   import type { StatGame } from "./types";
   import type { Theme } from "./theme";
-  import { getLocalTimezone, getTzOffset, is12h, offsetTimestamp, timezones } from './utils';
+  import { getTzOffset, is12h, offsetTimestamp } from './utils';
 
   export let series: [
     timestamps: number[],
     viewersSeries: number[],
-    donationsSeries: number[]
+    donationsSeries: number[],
+    ytViewersSeries: number[],
   ];
   export let games: StatGame[] | null = null;
   export let gameName: string = null;
@@ -18,9 +19,12 @@
   export let showLines = true;
   export let onDoubleClick: (game: StatGame) => void;
   export let viewersColor: string;
+  export let ytViewersColor: string;
   export let donationsColor: string;
   export let tz: string;
 
+  let hasAnyYt = false;
+  $: hasAnyYt = series[3].some(x => x !== null);
   $: renderChart(series, games, theme);
 
   let chartEl: HTMLDivElement;
@@ -108,6 +112,15 @@
           value: valueFormatter,
           points: { show: false },
         },
+        {
+          label: "YouTube Viewers",
+          stroke: ytViewersColor,
+          width: 1.5,
+          scale: "viewers",
+          paths: uPlot.paths.stepped({}),
+          spanGaps: false,
+          points: { show: false },
+        }
       ],
       axes: [
         {
@@ -196,7 +209,9 @@
 
       const ts = u.series[0].value(u, u.data[0][idx], 0, idx);
       const viewers = u.series[1].value(u.series[1], u.data[1][idx], 1, idx) || 0;
+      const ytViewers = u.series[3].value(u.series[3], u.data[3][idx], 3, idx) || 0;
       const viewerColor = u.series[1].stroke();
+      const ytViewerColor = u.series[3].stroke();
       const donations = u.series[2].value(u.series[2], u.data[2][idx], 2, idx) || 0;
       const donationColor = u.series[2].stroke();
 
@@ -226,9 +241,16 @@
       <div style="padding: 4px;font-weight: bold; font-size: 8pt; text-align: center;">${ts.toUpperCase()}</div>
       <div style="display: flex;">
         <div style="min-width: 100px; padding-right: 6px; margin-bottom: 6px;">
-          <span style="color: var(--fg-light-dim); font-size: 10pt;">Viewers</span>
+          <span style="color: var(--fg-light-dim); font-size: 10pt;">Twitch</span>
           <div style="margin-bottom: -4px; font-weight: bold; color: ${viewerColor}">${viewers}</div>
-        </div>
+        </div>`
+        + (hasAnyYt ? `
+        <div style="min-width: 100px; padding-right: 6px; margin-bottom: 6px;">
+          <span style="color: var(--fg-light-dim); font-size: 10pt;">YouTube</span>
+          <div style="margin-bottom: -4px; font-weight: bold; color: ${ytViewerColor}">${ytViewers}</div>
+        </div>` : '') + `
+      </div>
+      <div style="display: flex;">
         <div style="min-width: 100px; margin-bottom: 6px;">
           <span style="color: var(--fg-light-dim); font-size: 10pt;">Donation Total</span>
           <div style="margin-bottom: -4px; font-weight: bold; color: ${donationColor}">${donations}</div>

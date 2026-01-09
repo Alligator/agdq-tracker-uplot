@@ -3,10 +3,11 @@ export const GAME_TS = 0;
 export const GAME_NAME = 1;
 export const GAME_RUNNERS = 2;
 
-export type StatEntry = [timestamp: number, viewers: number, donations: number];
+export type StatEntry = [timestamp: number, viewers: number, donations: number, ytViewers: number];
 export const ENTRY_TS = 0;
 export const ENTRY_VIEWERS = 1;
 export const ENTRY_DONATIONS = 2;
+export const ENTRY_YT_VIEWERS = 3;
 
 export type MarathonType = 'gdq' | 'ff' | 'gdqx' | 'btb' | 'gdqueer';
 
@@ -17,7 +18,7 @@ export interface Stats {
   viewers: StatEntry[];
 }
 
-export type ChartSeries = [number[], number[], number[]];
+export type ChartSeries = [number[], number[], number[], number[]];
 
 export interface CompStats {
   name: string;
