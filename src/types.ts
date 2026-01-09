@@ -23,6 +23,7 @@ export interface CompStats {
   name: string;
   ts: number[];
   viewers: number[][];
+  viewers_yt: number[][];
   donations: number[][];
   marathons: string[];
   meta: {

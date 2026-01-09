@@ -295,7 +295,7 @@
           <CompChart
             {theme}
             timestamps={data.ts}
-            data={showViewers ? data.viewers : data.donations}
+            data={showViewers ? [['Twitch', data.viewers], ['YouTube', data.viewers_yt]] : [['', data.donations]]}
             format={showViewers ? "viewers" : "donations"}
             marathons={data.marathons}
             tz={tz}

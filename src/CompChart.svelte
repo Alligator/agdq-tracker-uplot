@@ -7,7 +7,7 @@
   import { fmtMarathonName, getTzOffset, is12h, offsetTimestamp } from "./utils";
 
   export let timestamps: number[];
-  export let data: number[][];
+  export let data: [string, number[][]][];
   export let marathons: string[];
   export let enabledMarathons: boolean[];
   export let theme: Theme;
@@ -57,7 +57,7 @@
 
   function renderChart(
     timestamps: number[],
-    data: number[][],
+    data: [string, number[][]][],
     marathons: string[],
     enabledMarathons: boolean[],
     theme: Theme,
@@ -65,10 +65,6 @@
     if (!chartEl) {
       return;
     }
-
-    const filteredData = data.filter((_, i) => enabledMarathons[i]);
-    filteredData.reverse();
-    const series = [timestamps, ...filteredData];
 
     const textColor = theme['color-fg'];
     const tzOffset = getTzOffset(tz);
@@ -82,18 +78,32 @@
       tickFormatter = (self, ticks) => ticks.map(uPlot.fmtNum);
     }
 
-    const seriesOpts = marathons
-      .map((name, i): uPlot.Series => ({
-        label: fmtMarathonName(name),
-        stroke: i === 0 ? theme['color-fg'] : marathonColor(i),
-        width: i === 0 ? 2.5 : 1.5,
-        paths: uPlot.paths.spline(),
-        value: valueFormatter,
-        spanGaps: false,
-      }))
-      .filter((_, i) => enabledMarathons[i]);
+    let series = [timestamps];
+    let seriesOpts = [];
+    for (const d of data) {
+      const filteredData = d[1]
+        .map((d, i) => ({ index: i, data: d }))
+        .filter((d) => enabledMarathons[d.index]);
+      filteredData.reverse();
 
-    seriesOpts.reverse();
+      for (const fd of filteredData) {
+        if (!fd.data.some(x => x !== null)) {
+          continue;
+        }
+        series.push(fd.data);
+
+        const name = marathons[fd.index];
+        const i = fd.index;
+        seriesOpts.push({
+          label: `${fmtMarathonName(name)} ${d[0]}`,
+          stroke: i === 0 ? theme['color-fg'] : marathonColor(i),
+          width: i === 0 ? 2.5 : 1.5,
+          paths: uPlot.paths.spline(),
+          value: valueFormatter,
+          spanGaps: false,
+        });
+      }
+    }
 
     const opts: Options = {
       id: "chart1",
@@ -202,8 +212,8 @@
         const formattedVal = val ? opts.valueFormatter(val, val) : 'N/A';
         const highlight = series.width === 3;
         tooltipContent.push(
-          `<div style="display: flex;"><div style="color: ${series._stroke}; font-weight: bold; min-width: 10ex;">` +
-            `${series.label}:` +
+          `<div style="display: flex; justify-content: space-between"><div style="color: ${series._stroke}; font-weight: bold; min-width: 10ex;">` +
+            `${series.label}:&nbsp;` +
           `</div> ${formattedVal}</div>`);
       });
 
